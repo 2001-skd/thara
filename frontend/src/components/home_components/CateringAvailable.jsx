@@ -1,5 +1,4 @@
 import React from "react";
-// import bg_waves from "../../assets/images/bg_patter.png";
 import { Typography, Chip, Button } from "@material-tailwind/react";
 import { allAssets } from "../../../public/assets/assets";
 import { Link } from "react-router-dom";
@@ -18,7 +17,7 @@ const CateringAvailable = () => {
           We also offer professional catering services for all occasions.
         </Typography>
         <Typography className="font-font-primary text-white text-xl">
-          At Thara's Takeaway, we proudly offer tailored catering services for
+          At Tharas Takeaway, we proudly offer tailored catering services for
           any event, from intimate gatherings to grand celebrations, so book
           with us today and let us make your occasion unforgettable before we're
           fully booked!

@@ -65,7 +65,7 @@ const ExploreMenu = () => {
     <section className="py-10 px-4 bg-custom_gradient">
       <div className="top_part flex items-center justify-between flex-1 gap-4 md:flex-row flex-col">
         <Typography variant="h1" className="font-font-primary text-white">
-          Explore <span>Thara's Takeaway</span> Menu
+          Explore <span>Tharas Takeaway</span> Menu
         </Typography>
 
         <div className="flex gap-4 flex-col">

@@ -1,5 +1,4 @@
 import React from "react";
-import bg_waves from "../../../public/assets/images/bg_patter.png";
 import { Typography, Chip, Button } from "@material-tailwind/react";
 import { allAssets } from "../../../public/assets/assets";
 import { Link } from "react-router-dom";

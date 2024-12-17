@@ -11,7 +11,7 @@ import { allAssets } from "../../../public/assets/assets";
 const About_us_section = () => {
   const items = [
     {
-      title: "Order Your Meals At Thara's Takeaway",
+      title: "Order Your Meals At Tharas Takeaway",
       img: briyaniImg,
       count: "01",
     },

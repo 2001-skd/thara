@@ -362,7 +362,7 @@ function sendAdminNotificationEmail(
 router.get("/fetch-order-details", (req, res) => {
   const { user_id } = req.query;
   const query =
-    "SELECT user_id,payment_method,order_status,food_name,food_price,foodimg,quantity,order_item_id, created_at FROM orders INNER JOIN order_items ON order_items.order_id = orders.order_id WHERE user_id= ? ORDER BY order_item_id DESC";
+    "SELECT user_id,payment_method,order_status,food_name,food_price,foodimg,quantity,order_item_id, created_at, cooking_status FROM orders INNER JOIN order_items ON order_items.order_id = orders.order_id WHERE user_id= ? ORDER BY order_item_id DESC";
 
   db.query(query, [user_id], (err, result) => {
     if (err) {

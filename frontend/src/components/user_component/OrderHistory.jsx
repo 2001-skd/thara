@@ -117,7 +117,7 @@ const OrderHistory = () => {
                     <Typography className="font-font-primary text-xl font-semibold text-secondary">
                       <Chip
                         variant="outlined"
-                        value={value.order_status}
+                        value={value.cooking_status}
                         className="font-font-primary text-secondary"
                       />
                     </Typography>

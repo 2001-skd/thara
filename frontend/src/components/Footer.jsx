@@ -94,7 +94,7 @@ export default function Footer() {
             <img src={allAssets.headerLogo} alt="footerLogo" />
             <div>
               <Typography className="font-font-primary text-primary text-center md:text-left">
-                Thara's takeaway address will come
+                Tharas takeaway address will come
               </Typography>
               <Typography className="font-font-primary text-primary text-center md:text-left">
                 <a href="#">1234567890</a>
@@ -167,7 +167,7 @@ export default function Footer() {
           >
             &copy; {currentYear}{" "}
             <a href="#" className="font-font-primary">
-              Thara's Takeaway
+              Tharas Takeaway
             </a>
             . All Rights Reserved.
           </Typography>

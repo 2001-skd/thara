@@ -40,7 +40,7 @@ function Footer() {
       </div>
       <hr className="my-8 border-blue-gray-50" />
       <Typography className="text-center font-normal font-font-primary text-primary">
-        &copy; {currentYear} Thara's Takeaway
+        &copy; {currentYear} Tharas Takeaway
       </Typography>
     </footer>
   );

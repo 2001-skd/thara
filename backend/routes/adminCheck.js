@@ -5,7 +5,6 @@ import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { encode } from "punycode";
 import { DefaultDeserializer } from "v8";
-// const crypto = require("crypto");
 
 const router = express.Router();
 const app = express();

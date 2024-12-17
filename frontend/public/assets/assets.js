@@ -1,4 +1,4 @@
-import headerLogo from "./images/logo-removebg-preview.png";
+import headerLogo from "/assets/images/tharastakeaway-logo.png";
 import bg_waves from "./images/bg_patter.png";
 import briyaniImg from "./images/briynai_img.jpg";
 import cookingBiryaniImg from "./images/biryani_cooking.jpg";

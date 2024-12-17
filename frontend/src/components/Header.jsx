@@ -98,14 +98,14 @@ export default function Header() {
     <Navbar className="sticky top-0 z-30 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-2 shadow-none bg-[whitesmoke]">
       <div className="flex items-center justify-between text-blue-gray-900">
         <Link to="/">
-          <div className="logo flex items-center md:flex-row">
+          <div className="logo flex items-center md:flex-row gap-3">
             <img
               src={allAssets.headerLogo}
               alt="header logo"
               className="h-20 w-20 object-cover"
             />
-            <Typography className="font-font-primary text-primary md:text-xl font-bold">
-              Thara's Takeaway
+            <Typography className="font-font-primary text-primary md:text-2xl font-bold">
+              Tharas Takeaway
             </Typography>
           </div>
         </Link>
