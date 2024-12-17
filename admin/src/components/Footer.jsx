@@ -1,5 +1,5 @@
 import { Typography } from "@material-tailwind/react";
-import { adminAssets } from "../assets/adminAssets";
+import { adminAssets } from "../../public/assets/adminAssets";
 import { Link } from "react-router-dom";
 
 function Footer() {
