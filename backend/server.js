@@ -58,3 +58,7 @@ app._router.stack.forEach((middleware) => {
 app.listen(PORT, () => {
   console.log("the app was running in the port " + PORT);
 });
+
+app.get("/", (req, res) => {
+  res.send("Backend is working!");
+});
