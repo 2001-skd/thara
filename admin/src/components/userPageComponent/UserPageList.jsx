@@ -1,9 +1,8 @@
 import React, { act, useEffect, useState } from "react";
-// import { Table } from "@table-library/react-table-library/table";
 import { CompactTable } from "@table-library/react-table-library/compact";
 import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
-import "./userTable.css";
+import "./UserTable.css";
 import { Button, Input, Typography } from "@material-tailwind/react";
 import { usePagination } from "@table-library/react-table-library/pagination";
 
