@@ -7,6 +7,5 @@ export const adminAssets = {
   headerLogo,
   bg_waves,
   diagonalBg,
-  chef,
   emptyCartPng,
 };
