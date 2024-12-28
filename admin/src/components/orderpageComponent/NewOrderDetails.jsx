@@ -268,8 +268,10 @@ const NewOrderDetails = () => {
             </Card>
           ))
       ) : (
-        <div className="text-center font-font-primary text-lg text-primary">
-          No new orders found
+        <div className="flex items-start justify-center">
+          <Typography variant="h5" className="text-primary font-font-primary ">
+            No New Orders
+          </Typography>
         </div>
       )}
     </div>

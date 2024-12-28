@@ -115,8 +115,11 @@ const ProcessingOrderDetails = () => {
   return (
     <div className="new-order-details font-font-primary grid md:grid-cols-3 grid-cols-1 gap-5">
       {orderedItems.length === 0 ? (
-        <div className="col-span-3 text-center">
-          <Typography variant="h5" className="text-red-500">
+        <div className="flex items-start justify-center">
+          <Typography
+            variant="h5"
+            className="text-primary font-font-primary text-center"
+          >
             No Processing Orders
           </Typography>
         </div>
