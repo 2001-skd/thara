@@ -17,7 +17,6 @@ const MenuList = () => {
   const [foodListData, setFoodListData] = useState([]);
   const [loading, setLoading] = useState(true);
   // all states ends
-  const host = "http://localhost:5000";
 
   // handleexpand Function starts
   function handleExpand(item) {
@@ -33,7 +32,9 @@ const MenuList = () => {
   async function handleFoodMenuListFetching() {
     setLoading(true);
     try {
-      const response = await fetch(`${host}/menu/get-foodmenu`);
+      const response = await fetch(
+        "http://localhost/tharas_takeaway/backend/api/get_menu_details_table.php"
+      );
       const responseData = await response.json(); // Add 'await' here
       console.log(responseData);
       if (Array.isArray(responseData)) {
@@ -84,7 +85,7 @@ const MenuList = () => {
       label: "Food Image",
       renderCell: (item) => (
         <img
-          src={`${host}/${item.foodimg}`}
+          src={`https://tharastakeaway.com/backend/${item.foodimg}`}
           alt={item.foodname}
           width={"100px"}
           height={"100px"}
@@ -100,6 +101,10 @@ const MenuList = () => {
     {
       label: "Food Category",
       renderCell: (item) => item.foodcategory,
+    },
+    {
+      label: "Food Description",
+      renderCell: (item) => item.fooddesc,
     },
     {
       label: "Food Price",
@@ -137,7 +142,7 @@ const MenuList = () => {
                     Food Image :
                   </strong>
                   <img
-                    src={`${host}/${item.foodimg}`}
+                    src={`https://tharastakeaway.com/backend/${item.foodimg}`}
                     alt={item.foodname}
                     width={"50px"}
                     height={"50px"}
@@ -168,6 +173,15 @@ const MenuList = () => {
                   </strong>
                   <Typography className="font-font-primary text-primary font-semibold">
                     {item.foodcategory}
+                  </Typography>
+                </li>
+
+                <li className="flex items-center gap-3">
+                  <strong className="font-font-primary text-secondary">
+                    Food Description :
+                  </strong>
+                  <Typography className="font-font-primary text-primary font-semibold">
+                    {item.fooddesc}
                   </Typography>
                 </li>
 
@@ -219,18 +233,29 @@ const MenuList = () => {
   // delete function starts
   async function handleDeleteBtn(e, id) {
     e.preventDefault();
-    // console.log("Attempting to delete category with ID:", id); // Log the ID
+    // Log the ID to check if it's correct
+    console.log("Attempting to delete food menu item with ID:", id);
+
     try {
-      const response = await fetch(`${host}/menu/delete-foodmenu/${id}`, {
-        method: "DELETE",
-      });
-      const responseData = await response.json();
+      const response = await fetch(
+        `http://localhost/tharas_takeaway/backend/api/delete_food_menu.php?id=${id}`, // Include the ID in the query string
+        {
+          method: "DELETE", // Ensure the method is DELETE
+          headers: {
+            "Content-Type": "application/json", // Set the content type for JSON
+          },
+        }
+      );
+
+      const responseData = await response.json(); // Parse the JSON response
 
       if (response.ok) {
-        // alert("Deleted successfully");
+        // Update the state to remove the deleted item from the list
         setFoodListData((prevData) =>
           prevData.filter((item) => item.id !== id)
         );
+
+        // Display a success message using toast
         toast.success("Deleted Successfully", {
           position: "top-center",
           autoClose: 5000,
@@ -242,11 +267,13 @@ const MenuList = () => {
           theme: "light",
           transition: Slide,
         });
+
+        // Scroll to the top after deletion
         window.scrollTo(0, 0);
       } else {
-        // alert(responseData.message || "Failed to delete the category");
+        // If the deletion fails, display the error message from the API
         const errorMsg =
-          responseData.message || "Failed to delete the category";
+          responseData.message || "Failed to delete the food menu item";
         toast.error(errorMsg, {
           position: "top-center",
           autoClose: 5000,
@@ -258,26 +285,30 @@ const MenuList = () => {
           theme: "light",
           transition: Slide,
         });
+
+        // Scroll to the top after an error
         window.scrollTo(0, 0);
       }
     } catch (error) {
-      console.error("Error while deleting category:", error);
-      alert("An error occurred while deleting the category");
+      console.error("Error while deleting food menu item:", error);
+
+      // In case of an error with the fetch request
+      toast.error("An error occurred while deleting the food menu item", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
+      window.scrollTo(0, 0);
     }
   }
+
   // delete function ends
-
-  // edit function starts
-  // async function handlecategoryEdit(e, id) {
-  //   e.preventDefault();
-
-  //   try {
-  //     const url = await fetch(`${host}/category/edit-category/${id}`, {
-  //       method: "PUT",
-  //     });
-  //   } catch (err) {}
-  // }
-  // edit function ends
   return (
     <section className="py-8">
       {/* <ToastContainer /> */}

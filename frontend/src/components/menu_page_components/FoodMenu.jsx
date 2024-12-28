@@ -6,7 +6,6 @@ import {
   Tab,
   TabPanel,
   Card,
-  Avatar,
   CardBody,
   CardHeader,
   Typography,
@@ -20,9 +19,10 @@ import { IoMdCart } from "react-icons/io";
 import { cartContext } from "../../context-reducer/Context";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./customScrollbar.css"; // Add a custom CSS file for scrollbar styles
 
 const FoodMenu = () => {
-  const host = "http://localhost:5000";
+  const imgHost = "https://tharastakeaway.com/backend/";
   let menuId = 1;
   const [menuData, setMenuData] = useState([]);
   const token = localStorage.getItem("token");
@@ -43,25 +43,21 @@ const FoodMenu = () => {
   }
 
   function handleaddToCart(menu) {
-    // setCart((prevCart) => [...prevCart, item]);
     dispatch({
       type: "add_to_cart",
       payload: menu,
     });
   }
 
-  // delete function starts
   function handledeleteFromCart(menu) {
     dispatch({
       type: "delete_from_cart",
       payload: menu,
     });
   }
-  console.log(cartState);
 
-  // Fetching menu details based on category
   useEffect(() => {
-    fetch(`${host}/category/fetch-details-based-on-category`)
+    fetch(`${import.meta.env.VITE_API_URL}fetch_details_based_on_category.php`)
       .then((response) => response.json())
       .then((data) => {
         const groupByCategory = data.reduce((acc, item) => {
@@ -82,30 +78,27 @@ const FoodMenu = () => {
           });
           return acc;
         }, {});
-        console.log(groupByCategory);
-
         setMenuData(Object.values(groupByCategory));
-        // setLoading(false); // Turn off loading once data is fetched
       })
       .catch((err) => {
         console.log("error while fetching menu based on category", err);
-        // setLoading(false); // In case of error, turn off loading as well
       });
   }, []);
+
   return (
-    <section className="py-8 px-4 bg-diagonalBg">
+    <section className="md:py-8 py-4 px-4 bg-diagonalBg">
       <Card className="p-5">
         <Tabs value="briyani" orientation="horizontal">
-          <TabsHeader className="w-full font-font-primary shadow-lg overflow-scroll md:overflow-hidden">
+          <TabsHeader className="w-full font-font-primary shadow-lg overflow-x-auto custom-scrollbar md:overflow-hidden">
             {menuData.map(({ label, value, img }) => (
               <Tooltip content={`${label}`} className="font-font-primary">
                 <Tab
                   key={value}
                   value={value}
-                  className="font-bold text-primary font-font-primary place-items-start w-96 flex items-center justify-center my-2"
+                  className="font-bold text-primary font-font-primary flex items-center justify-center gap-3 my-2"
                 >
                   <img
-                    src={`${host}/${img}`}
+                    src={`${imgHost}/${img}`}
                     className="w-10 h-10 rounded-full object-cover"
                   />
                   {label.slice(0, 5) + "..."}
@@ -115,7 +108,7 @@ const FoodMenu = () => {
           </TabsHeader>
           <TabsBody>
             {menuData.map(({ value, menuitems }) => (
-              <TabPanel key={value} value={value}>
+              <TabPanel key={value} value={value} className="p-0 py-4">
                 <div className="grid md:grid-cols-3 grid-cols-1 gap-5">
                   {menuitems.map((menu, index) => (
                     <Card
@@ -124,10 +117,10 @@ const FoodMenu = () => {
                     >
                       <CardHeader floated={false} color="blue-gray">
                         <img
-                          src={`${host}/${menu.foodimg}`}
+                          src={`${imgHost}/${menu.foodimg}`}
                           alt={menu.foodname}
                         />
-                        <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
+                        <div className="absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60" />
                       </CardHeader>
                       <CardBody>
                         <div className="mb-3 flex items-center justify-between">
@@ -171,7 +164,7 @@ const FoodMenu = () => {
                           <Button
                             size="lg"
                             fullWidth={true}
-                            className="bg-primary text-bold tracking-widest text-white font-font-primary flex items-center justify-center gap-5"
+                            className="bg-primary text-bold text-white font-font-primary flex items-center justify-center gap-3"
                             onClick={
                               token
                                 ? () => {

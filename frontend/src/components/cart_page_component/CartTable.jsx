@@ -30,13 +30,13 @@ const TABLE_HEAD = [
 ];
 
 const CartTable = () => {
-  const { cartState, dispatch } = useContext(cartContext); // Context for managing cart state
-  const host = "http://localhost:5000"; // Use environment variable for host
+  const { cartState, dispatch } = useContext(cartContext);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
   const [shippingAddress, setShippingAddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cash_on_delivery");
+  const imgHost = "https://tharastakeaway.com/backend/";
 
   // console.log("cart state",)
 
@@ -100,39 +100,47 @@ const CartTable = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${host}/order/create-order`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderData),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}create_order.php`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
+
       const responseData = await response.json();
+
       if (response.ok) {
+        // Check if payment is by Stripe (if needed in the future)
         if (paymentMethod === "stripe") {
-          alert("payment mad with stripe");
+          // Handle Stripe-specific payment process here (if required)
+          alert("Payment made with Stripe");
           window.location.href = "/thank-you";
-          setLoading(false);
         } else {
-          // alert("payment made with COD");
+          // If payment method is COD (Cash on Delivery)
+          // alert("Order placed successfully with COD");
           window.location.href = "/thank-you";
-          setLoading(false);
         }
       } else {
         alert("Error: " + responseData.message);
-        setLoading(false);
       }
     } catch (error) {
       console.error("Error submitting order:", error);
       alert("Something went wrong, please try again");
+    } finally {
+      // Ensure loading state is turned off regardless of success or failure
       setLoading(false);
     }
   }
+
   // create order function ends
 
   return (
     <>
-      <section className="px-4 py-8">
+      <section className="px-4 py-8 bg-diagonalBg">
         {cartState.length === 0 ? (
           <div className="no_order_part">
             <Card className="flex items-center justify-center flex-col py-5 gap-5">
@@ -167,75 +175,46 @@ const CartTable = () => {
                 </div>
               </div>
             </CardHeader>
-            <CardBody className="overflow-scroll px-0">
-              <table className="mt-4 w-full min-w-max table-auto text-left">
-                <thead>
-                  <tr>
-                    {TABLE_HEAD.map((head, index) => (
-                      <th
-                        key={index}
-                        className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50 font-font-primary"
-                      >
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="flex items-center justify-between gap-2 leading-none opacity-70 font-font-primary text-xl font-bold"
-                        >
-                          {head}
-                        </Typography>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {cartState.map((menu, index) => {
-                    if (!menu || !menu.foodprice) {
-                      return null; // Skip this item if it's invalid
-                    }
+            <CardBody className="px-0">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {cartState.map((menu, index) => {
+                  if (!menu || !menu.foodprice) {
+                    return null; // Skip this item if it's invalid
+                  }
 
-                    const priceInt = Number(menu.foodprice);
-                    const totalPrice = parseFloat(priceInt * menu.qty).toFixed(
-                      2
-                    );
+                  const priceInt = Number(menu.foodprice);
+                  const totalPrice = parseFloat(priceInt * menu.qty).toFixed(2);
 
-                    return (
-                      <tr key={index}>
-                        <td className="p-4 border-b border-blue-gray-50">
-                          <div className="flex items-center gap-3">
-                            <Avatar
-                              src={`${host}/${menu.foodimg}`}
-                              alt={menu.foodname}
-                              size="sm"
-                            />
-                            <div className="flex flex-col">
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal font-font-primary text-xl text-primary"
-                              >
-                                {menu.foodname}
-                              </Typography>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="p-4 border-b border-blue-gray-50">
+                  return (
+                    <Card
+                      key={index}
+                      className="p-4 border border-blue-gray-50 rounded-lg"
+                    >
+                      <div className="flex flex-col items-center">
+                        <img
+                          src={`${imgHost}/${menu.foodimg}`}
+                          alt={menu.foodname}
+                          className="rounded-md mb-3"
+                        />
+                        <div className="flex items-center justify-between w-full">
                           <Typography
-                            variant="small"
+                            variant="h6"
                             color="blue-gray"
-                            className="font-normal font-font-primary text-xl"
+                            className="font-font-primary text-primary text-xl text-center"
+                          >
+                            {menu.foodname}
+                          </Typography>
+
+                          <Typography
+                            variant="body2"
+                            color="blue-gray"
+                            className="font-font-primary text-xl font-semibold"
                           >
                             £{menu.foodprice}
                           </Typography>
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal opacity-70 font-font-primary"
-                          >
-                            QTY: {menu.qty}
-                          </Typography>
-                        </td>
-                        <td className="p-4 border-b border-blue-gray-50">
-                          <div className="flex items-center gap-2">
+                        </div>
+                        <div className="mt-2 flex flex-col items-center">
+                          <div className="flex items-center gap-2 mt-2">
                             <Button
                               className="font-font-primary"
                               size="sm"
@@ -244,8 +223,8 @@ const CartTable = () => {
                             >
                               <FaMinus />
                             </Button>
-                            <Typography className="font-font-primary text-xl font-bold text-black">
-                              {menu.qty}
+                            <Typography className="font-font-primary md:text-xl font-bold text-black">
+                              Quantity : {menu.qty}
                             </Typography>
                             <Button
                               className="font-font-primary"
@@ -256,31 +235,29 @@ const CartTable = () => {
                               <FaPlus />
                             </Button>
                           </div>
-                        </td>
-                        <td className="p-4 border-b border-blue-gray-50">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal text-xl font-font-primary"
+                        </div>
+                        <Typography
+                          variant="body2"
+                          color="blue-gray"
+                          className="font-font-primary mt-2 text-xl font-bold"
+                        >
+                          £{totalPrice}
+                        </Typography>
+                      </div>
+                      <div className="mt-4 flex justify-center">
+                        <Tooltip content="Remove from Cart">
+                          <IconButton
+                            variant="text"
+                            onClick={() => handleDeleteFromCart(menu)}
                           >
-                            £{totalPrice}
-                          </Typography>
-                        </td>
-                        <td className="p-4 border-b border-blue-gray-50">
-                          <Tooltip content="Remove from Cart">
-                            <IconButton
-                              variant="text"
-                              onClick={() => handleDeleteFromCart(menu)}
-                            >
-                              <IoMdTrash className="text-red-500" size={20} />
-                            </IconButton>
-                          </Tooltip>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                            <IoMdTrash className="text-red-500" size={20} />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
+                    </Card>
+                  );
+                })}
+              </div>
             </CardBody>
             <CardFooter className="flex items-center justify-between gap-5 border-t border-blue-gray-50 p-4 md:flex-row flex-col">
               <Button

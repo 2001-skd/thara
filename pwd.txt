@@ -1,7 +1,0 @@
-tharas takeaway
-
-vps root password - Th@ra@1234@takAway
-
-ssh password - M9WbtVRnKT=Zik5X@xJ7
-
-mysql pwd - Thar@T@kE@123

@@ -17,16 +17,27 @@ const ContactTable = () => {
     setLoading(true);
     try {
       const url = await fetch(
-        "http://localhost:5000/contact/get-contact-details"
+        "http://localhost/tharas_takeaway/backend/api/get_contact_details.php",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // If you're using JWT for authentication, you might need to add an Authorization header
+            // "Authorization": `Bearer ${token}`,
+          },
+        }
       );
+
       const responseData = await url.json();
+
+      // Check if the response is an array of contact details
       if (Array.isArray(responseData)) {
         setTableData(responseData);
       } else {
         setTableData([]);
       }
     } catch (err) {
-      console.log("error fetching details", err);
+      console.log("Error fetching details:", err);
     } finally {
       setLoading(false);
     }

@@ -51,7 +51,7 @@ const CategoryForm = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/category/category-form",
+        "http://localhost/tharas_takeaway/backend/api/category_form.php",
         {
           method: "POST",
           body: formData,

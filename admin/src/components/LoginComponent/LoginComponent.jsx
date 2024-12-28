@@ -19,7 +19,6 @@ const LoginComponent = () => {
   if (token) {
     return <Navigate to="/dashboard" replace />;
   }
-  const host = "http://localhost:5000";
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -42,18 +41,26 @@ const LoginComponent = () => {
   // Form submit function
   async function onSubmit(data) {
     setLoading(true);
-    const response = await fetch(`${host}/admin/admin-check`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+
+    // Sending a POST request to the PHP backend
+    const response = await fetch(
+      "http://localhost/tharas_takeaway/backend/api/admin-login.php",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Tell the server it's JSON data
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    // Parse the JSON response
     const responseData = await response.json();
-    console.log(data);
 
     if (response.ok) {
-      //   alert(responseData.token);
+      // If the login is successful, store the token in localStorage
       localStorage.setItem("token", responseData.token);
-      toast.success("Login Successfull", {
+      toast.success("Login Successful", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -64,14 +71,14 @@ const LoginComponent = () => {
         theme: "light",
         transition: Slide,
       });
+
       setLoading(false);
-      //   Navigate("/dashboard");
+      // Redirect to the dashboard after 5 seconds
       setTimeout(() => {
         window.location = "/dashboard";
       }, 5000);
-      //   console.log("success", responseData);
     } else {
-      //   console.log("failure", responseData);
+      // If the login fails, show an error message
       toast.error(responseData.message, {
         position: "top-center",
         autoClose: 5000,
@@ -83,6 +90,7 @@ const LoginComponent = () => {
         theme: "light",
         transition: Slide,
       });
+
       setLoading(false);
     }
   }

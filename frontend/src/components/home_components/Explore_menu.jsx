@@ -26,15 +26,27 @@ const SkeletonLoader = () => {
 };
 
 const ExploreMenu = () => {
-  const host = "http://localhost:5000";
   const [foodMenu, setFoodMenu] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
+  const imgHost = "https://tharastakeaway.com/backend/";
 
   // Fetching menu details based on category
   useEffect(() => {
-    fetch(`${host}/category/fetch-details-based-on-category`)
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchMenuDetails = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}fetch_details_based_on_category.php`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        // Group data by category
         const groupByCategory = data.reduce((acc, item) => {
           if (!acc[item.foodcategory]) {
             acc[item.foodcategory] = {
@@ -50,15 +62,19 @@ const ExploreMenu = () => {
           return acc;
         }, {});
 
+        // Log grouped categories to check the result
         console.log(groupByCategory);
 
+        // Set the grouped food menu
         setFoodMenu(Object.values(groupByCategory));
-        setLoading(false); // Turn off loading once data is fetched
-      })
-      .catch((err) => {
-        console.log("error while fetching menu based on category", err);
-        setLoading(false); // In case of error, turn off loading as well
-      });
+      } catch (err) {
+        console.log("Error while fetching menu based on category", err);
+      } finally {
+        setLoading(false); // Turn off loading once data is fetched or error occurs
+      }
+    };
+
+    fetchMenuDetails();
   }, []);
 
   return (
@@ -75,7 +91,7 @@ const ExploreMenu = () => {
           </Typography>
           <Link to="/menu">
             <Button className="flex items-center gap-4 font-font-primary w-64 justify-center bg-white text-secondary">
-              Explore All Menu <ImSpoonKnife />
+              Explore Menu <ImSpoonKnife />
             </Button>
           </Link>
         </div>
@@ -101,7 +117,7 @@ const ExploreMenu = () => {
                 className="m-0 rounded-none"
               >
                 <img
-                  src={`${host}/${category.categoryimg}`}
+                  src={`${imgHost}/${category.categoryimg}`}
                   alt={category.categoryname}
                   className="h-60 w-full object-cover"
                 />

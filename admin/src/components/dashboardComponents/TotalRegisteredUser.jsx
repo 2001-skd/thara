@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 
 const TotalRegisteredUser = () => {
   const [totalRegisteredUser, setTotalRegisteredUser] = useState(0);
-  const host = "http://localhost:5000";
 
   async function handleUserDetailsCount() {
     try {
-      const url = await fetch(`${host}/user/fetch-user-details`);
+      const url = await fetch(
+        "http://localhost/tharas_takeaway/backend/api/fetch_user_details.php"
+      );
       const responseData = await url.json();
       // console.log("type of of response data", typeof responseData);
       //   console.log(userTableData);

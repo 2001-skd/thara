@@ -7,34 +7,33 @@ import { FaCartShopping } from "react-icons/fa6";
 
 const ProfileCard = () => {
   const user = JSON.parse(localStorage.getItem("userDetails"));
-  console.log("user", user);
-  const host = "http://localhost:5000";
   const [totalOrder, setTotalOrder] = useState(0);
 
   useEffect(() => {
     async function fetchOrderDetails() {
       try {
-        // Assuming you have the userId available (from local storage, context, etc.)
-        const userId = user.id; // Replace this with actual user ID logic
+        const userId = user.id;
 
         const response = await fetch(
-          `${host}/order/fetch-order-details?user_id=${userId}`
+          `${
+            import.meta.env.VITE_API_URL
+          }order_history_user.php?user_id=${userId}`
         );
 
-        // Handle response status
         if (!response.ok) {
           throw new Error(`Error: ${response.statusText}`);
         }
 
         const responseData = await response.json();
-        console.log("order history", responseData);
         setTotalOrder(responseData.length);
       } catch (error) {
         console.error("Error fetching order details:", error);
       }
     }
 
-    fetchOrderDetails();
+    if (user.id) {
+      fetchOrderDetails();
+    }
   }, []);
   const userdetails = [
     {

@@ -29,16 +29,19 @@ const SetNewPassword = () => {
   async function onSubmit(data) {
     setLoading(true);
     try {
-      const response = await fetch(`${host}/user/set-new-password`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userMail: data.userMail,
-          userPassword: data.userPassword,
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}set_new_password.php`, // Ensure this points to your PHP script
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userMail: data.userMail,
+            userPassword: data.userPassword,
+          }),
+        }
+      );
 
       const result = await response.json();
 
@@ -51,7 +54,7 @@ const SetNewPassword = () => {
         });
         reset(); // Reset the form on success
         setTimeout(() => {
-          window.location.href = "/login";
+          window.location.href = "/login"; // Redirect to login page after success
         }, 4000);
       } else {
         // Failure: Show error message
@@ -84,7 +87,10 @@ const SetNewPassword = () => {
           >
             Set New Password
           </Typography>
-          <form className="mt-8 mb-2 w-full" onSubmit={handleSubmit(onSubmit)}>
+          <form
+            className="mt-8 mb-2 w-full p-5"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <div className="mb-1 flex flex-col gap-6">
               <Typography
                 variant="h6"

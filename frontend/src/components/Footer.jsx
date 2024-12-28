@@ -1,10 +1,10 @@
 import { IconButton, Tooltip, Typography } from "@material-tailwind/react";
-import { allAssets } from "../../public/assets/assets";
 import { Link } from "react-router-dom";
 import { FaFacebook } from "react-icons/fa";
 import { FaInstagramSquare } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { AiFillTikTok } from "react-icons/ai";
+import headerLogo from "/assets/images/tharastakeaway-logo.png";
 
 const QUICKLINKS = [
   {
@@ -91,7 +91,7 @@ export default function Footer() {
       <div className="mx-auto w-full max-w-7xl px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="flex flex-col items-center md:items-start gap-5">
-            <img src={allAssets.headerLogo} alt="footerLogo" />
+            <img src={headerLogo} alt="footerLogo" />
             <div>
               <Typography className="font-font-primary text-primary text-center md:text-left">
                 Tharas takeaway address will come
@@ -99,6 +99,44 @@ export default function Footer() {
               <Typography className="font-font-primary text-primary text-center md:text-left">
                 <a href="#">1234567890</a>
               </Typography>
+
+              <div className=" my-4 flex gap-4 text-blue-gray-900 md:items-start md:justify-start items-center justify-center">
+                <Tooltip
+                  content="Facebook"
+                  className="bg-primary text-xl text-white font-font-primary"
+                >
+                  <a href="#">
+                    <FaFacebook className="text-primary text-xl" />
+                  </a>
+                </Tooltip>
+
+                <Tooltip
+                  content="Instagram"
+                  className="bg-primary text-xl text-white font-font-primary"
+                >
+                  <a href="#" className="text-primary text-xl">
+                    <FaInstagramSquare />
+                  </a>
+                </Tooltip>
+
+                <Tooltip
+                  content="Linkedin"
+                  className="bg-primary text-xl text-white font-font-primary"
+                >
+                  <a href="#" className="text-primary text-xl">
+                    <FaLinkedin />
+                  </a>
+                </Tooltip>
+
+                <Tooltip
+                  content="Tik Tok"
+                  className="bg-primary text-xl text-white font-font-primary"
+                >
+                  <a href="#" className="text-primary text-xl">
+                    <AiFillTikTok />
+                  </a>
+                </Tooltip>
+              </div>
             </div>
           </div>
 
@@ -147,15 +185,20 @@ export default function Footer() {
                 color="blue-gray"
                 className="mb-3 font-medium opacity-80 font-font-primary text-secondary underline underline-offset-4"
               >
-                Opening Time
+                Openings Time
               </Typography>
-              {OPENHOURS.map(({ day, timing }, index) => (
+              <li className="flex items-center gap-3">
+                <Typography className="py-1.5 font-normal transition-colors text-primary hover:text-secondary hover:underline underline-offset-4 font-font-primary">
+                  Monday - Sunday (09:00 AM to 10:00 PM)
+                </Typography>
+              </li>
+              {/* {OPENHOURS.map(({ day, timing }, index) => (
                 <li key={index} className="flex items-center gap-3">
                   <Typography className="py-1.5 font-normal transition-colors text-primary hover:text-secondary hover:underline underline-offset-4 font-font-primary">
-                    {day} : {timing}
+                    Monday - Sunday (09:00 AM to 10:00 PM)
                   </Typography>
                 </li>
-              ))}
+              ))} */}
             </ul>
           </div>
         </div>
@@ -166,49 +209,23 @@ export default function Footer() {
             className="mb-4 text-center font-normal text-blue-gray-900 md:mb-0 font-font-primary"
           >
             &copy; {currentYear}{" "}
-            <a href="#" className="font-font-primary">
+            <a href="/" className="font-font-primary">
               Tharas Takeaway
             </a>
             . All Rights Reserved.
           </Typography>
 
-          <div className="flex gap-4 text-blue-gray-900 sm:justify-center">
-            <Tooltip
-              content="Facebook"
-              className="bg-primary text-xl text-white font-font-primary"
+          <Typography
+            variant="small"
+            className="mb-4 text-center font-normal text-blue-gray-900 md:mb-0 font-font-primary"
+          >
+            <a
+              href="https://www.linkedin.com/in/m-santhakumar-b6082220a/"
+              className="font-font-primary"
             >
-              <a href="#">
-                <FaFacebook className="text-primary text-xl" />
-              </a>
-            </Tooltip>
-
-            <Tooltip
-              content="Instagram"
-              className="bg-primary text-xl text-white font-font-primary"
-            >
-              <a href="#" className="text-primary text-xl">
-                <FaInstagramSquare />
-              </a>
-            </Tooltip>
-
-            <Tooltip
-              content="Linkedin"
-              className="bg-primary text-xl text-white font-font-primary"
-            >
-              <a href="#" className="text-primary text-xl">
-                <FaLinkedin />
-              </a>
-            </Tooltip>
-
-            <Tooltip
-              content="Tik Tok"
-              className="bg-primary text-xl text-white font-font-primary"
-            >
-              <a href="#" className="text-primary text-xl">
-                <AiFillTikTok />
-              </a>
-            </Tooltip>
-          </div>
+              Created By Santhakumar.
+            </a>
+          </Typography>
         </div>
       </div>
     </footer>

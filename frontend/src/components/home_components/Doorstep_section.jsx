@@ -14,13 +14,13 @@ const Doorstep_section = () => {
           className="font-font-primary w-24 text-center bg-secondary text-white"
         />
         <Typography variant="h3" className="font-font-primary text-white">
-          Get Your Order 24/7 Right At Your Doorsteps
+          Get Your Order Right At Your Doorsteps
         </Typography>
         <Typography className="font-font-primary text-white text-xl">
-          Plant-based diets may offer an advantage over those that are not plant
-          based with respect to prevention and management of diabetes. the
-          adventist health studies found that vegetarians have approximately
-          half the risk of developing diabetes
+          Simply place your order online, and our team will take care of the
+          rest – packing your food securely and delivering it promptly to your
+          doorstep. Enjoy an authentic, flavorful experience with Tharas
+          Takeaway!
         </Typography>
         <div className="flex items-center gap-4 flex-col md:flex-row">
           <Link to="/menu">

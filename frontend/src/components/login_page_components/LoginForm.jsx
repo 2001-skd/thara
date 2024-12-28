@@ -17,12 +17,12 @@ const LoginForm = () => {
   const [tabType, setTabType] = useState("login");
   console.log(tabType);
   return (
-    <section className="bg-diagonalBg w-full flex items-center justify-center h-auto py-8 px-8">
+    <section className="bg-diagonalBg w-full flex items-center justify-center h-auto py-8 px-8 overflow-hidden">
       <ToastContainer />
       <Card>
         <CardBody>
           <Tabs value={tabType}>
-            <TabsHeader>
+            <TabsHeader className="px-5">
               <Tab
                 className="font-bold text-primary font-font-primary"
                 value="login"

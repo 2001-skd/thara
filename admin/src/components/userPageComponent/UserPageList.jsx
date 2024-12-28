@@ -11,24 +11,36 @@ const UserPageList = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [ids, setIds] = useState([]);
-  const host = "http://localhost:5000";
 
   async function handleUserDetailsFetching() {
     setLoading(true);
     try {
-      const url = await fetch(`${host}/user/fetch-user-details`);
-      const responseData = await url.json();
-      //   console.log("type of of response data", typeof responseData);
-      //   console.log(userTableData);
+      const url =
+        "http://localhost/tharas_takeaway/backend/api/fetch_user_details.php";
+      const response = await fetch(url, {
+        method: "GET", // Explicitly specifying the method as GET
+        headers: {
+          "Content-Type": "application/json", // Make sure we're sending and receiving JSON
+        },
+      });
+
+      if (!response.ok) {
+        // Check if the response status is not OK (e.g., 500 or 404 errors)
+        throw new Error(`Error fetching user details: ${response.statusText}`);
+      }
+
+      const responseData = await response.json();
+
       if (Array.isArray(responseData)) {
-        setUserTableData(responseData);
+        setUserTableData(responseData); // Set the data if it's an array
       } else {
-        setUserTableData([]);
+        setUserTableData([]); // If responseData is not an array, set it as empty
       }
     } catch (err) {
-      console.log("error fetching details", err);
+      console.log("Error fetching details:", err);
+      setUserTableData([]); // Optionally clear the table data on error
     } finally {
-      setLoading(false);
+      setLoading(false); // Stop the loading state
     }
   }
 

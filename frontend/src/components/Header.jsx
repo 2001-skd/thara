@@ -12,9 +12,9 @@ import {
   MenuHandler,
   Badge,
 } from "@material-tailwind/react";
-import { allAssets } from "../../public/assets/assets";
+import headerLogo from "/assets/images/tharastakeaway-logo.png";
+import activerUser from "/assets/images/active-user.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaWhatsappSquare } from "react-icons/fa";
 import { BiSolidCart } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
 import { cartContext } from "../context-reducer/Context";
@@ -100,7 +100,7 @@ export default function Header() {
         <Link to="/">
           <div className="logo flex items-center md:flex-row gap-3">
             <img
-              src={allAssets.headerLogo}
+              src={headerLogo}
               alt="header logo"
               className="h-20 w-20 object-cover"
             />
@@ -151,7 +151,7 @@ export default function Header() {
                         withBorder={true}
                         color="blue-gray"
                         className=" p-0.5"
-                        src={allAssets.activeUser}
+                        src={activerUser}
                       />
                     </Badge>
                   </Button>

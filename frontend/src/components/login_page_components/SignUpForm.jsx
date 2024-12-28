@@ -14,8 +14,6 @@ const SignUpForm = () => {
     formState: { errors },
   } = useForm();
 
-  const host = "http://localhost:5000";
-
   //   function Toggle password starts
   function togglePassword() {
     setShowPassword((prev) => !prev);
@@ -25,21 +23,42 @@ const SignUpForm = () => {
   //   function Toggle password ends
 
   async function onSubmit(data) {
-    setLoading(true);
-    // console.log(data);
-    const response = await fetch(`${host}/user/create-account`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const responseData = await response.json();
-    if (response.ok) {
-      // alert("user Registerd Successfully");
-      toast.success(
-        "User Registered Successfully, Go To Login Tab and Login With Your Email and Password",
+    setLoading(true); // Set loading to true to show any loaders during the request
+
+    try {
+      // Send POST request to your PHP API for user registration
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}create_account.php`,
         {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", // Ensure request is sent as JSON
+          },
+          body: JSON.stringify(data), // Convert form data to JSON
+        }
+      );
+
+      if (response.ok) {
+        // If registration is successful
+        toast.success(
+          "User Registered Successfully, Go To Login Tab and Login With Your Email and Password",
+          {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Slide,
+          }
+        );
+        window.scrollTo(0, 0); // Scroll to the top of the page
+        reset(); // Reset the form after successful submission
+      } else if (response.status === 400) {
+        // If user is already registered
+        toast.warn("User Already Registered, Please Login", {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -49,14 +68,25 @@ const SignUpForm = () => {
           progress: undefined,
           theme: "light",
           transition: Slide,
-        }
-      );
-      window.scrollTo(0, 0);
-      reset();
-      setLoading(false);
-    } else if (response.status === 400) {
-      // alert("User Already Registered");
-      toast.warn("User Already Registered, Please Login", {
+        });
+      } else {
+        // Handle other server-side errors
+        toast.error("Something Went Wrong", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Slide,
+        });
+      }
+    } catch (error) {
+      // Handle client-side or network errors
+      console.error("Error submitting form:", error);
+      toast.error("Network Error, Please Try Again", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -67,28 +97,12 @@ const SignUpForm = () => {
         theme: "light",
         transition: Slide,
       });
-      window.scrollTo(0, 0);
-      reset();
-      setLoading(false);
-    } else {
-      // alert("Something Went Wrong");
-      toast.error("Something Went Wrong", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Slide,
-      });
-      window.scrollTo(0, 0);
-      reset();
-      setLoading(false);
+    } finally {
+      setLoading(false); // Turn off the loader once request is done
+      reset(); // Reset the form
     }
-    // console.log("response data", response);
   }
+
   return (
     <>
       <Typography
@@ -97,7 +111,7 @@ const SignUpForm = () => {
       >
         Create an Account
       </Typography>
-      <form className="mt-8 mb-2 w-full" onSubmit={handleSubmit(onSubmit)}>
+      <form className="mt-8 mb-2 w-full p-5" onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-1 flex flex-col gap-6">
           <Typography
             variant="h6"

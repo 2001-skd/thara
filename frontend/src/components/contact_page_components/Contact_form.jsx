@@ -18,23 +18,25 @@ export default function Contact_form() {
   } = useForm();
 
   async function onSubmit(data) {
-    // console.log("form data", data);
-
     try {
       const response = await fetch(
-        "http://localhost:5000/contact/submit-contact",
+        `${import.meta.env.VITE_API_URL}submit_contact.php`,
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded", // Change to form URL-encoded
           },
-          body: JSON.stringify(data),
+          body: new URLSearchParams({
+            name: data.name,
+            email: data.email,
+            mobile: data.mobile,
+            subject: data.subject,
+            message: data.message,
+          }),
         }
       );
-      // const responseData = response.json();
-      // console.log("response data", responseData);
+
       if (response.ok) {
-        // alert("form submitted successfully");
         toast.success(
           "Form Submitted Successfully, Our Team Will Contact You Soon",
           {
@@ -51,7 +53,6 @@ export default function Contact_form() {
         );
         reset();
       } else {
-        alert("failed to submit form");
         toast.error("Something Went Wrong , Please Try Again Later", {
           position: "top-center",
           autoClose: 5000,
@@ -64,11 +65,12 @@ export default function Contact_form() {
         });
         reset();
       }
-      // console.log(response.body);
     } catch (err) {
       console.error("Error submitting form:", err);
+      toast.error("Error submitting form, please try again later.");
     }
   }
+
   return (
     <>
       <section className="bg-contact_bg_img px-4 py-8 w-full h-auto bg-cover bg-no-repeat flex items-center md:justify-center lg:justify-start">

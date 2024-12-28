@@ -17,7 +17,6 @@ import { Link } from "react-router-dom";
 const MenuForm = () => {
   const [loading, setLoading] = useState(false);
   const [selectFieldData, setSelectFieldData] = useState([]);
-  const host = "http://localhost:5000";
 
   // Append date
   const currentDate = new Date();
@@ -44,48 +43,77 @@ const MenuForm = () => {
   useEffect(() => {
     async function fetchCategoryNameinSelect() {
       try {
-        const response = await fetch(`${host}/category/get-category-details`);
+        const response = await fetch(
+          "http://localhost/tharas_takeaway/backend/api/get_category_details_table.php"
+        );
         const responseData = await response.json();
+
         if (response.ok) {
+          // Assuming the responseData is an array or an object
           setSelectFieldData(responseData);
+        } else {
+          console.error("Error: ", responseData.message || "Unknown error");
         }
-        // console.log("response data", responseData);
-        // console.log("select field data", selectFieldData);
       } catch (error) {
-        console.log("Error while category field fetching");
+        console.error("Error while category field fetching:", error);
       }
     }
+
     fetchCategoryNameinSelect();
   }, []);
 
   // Form submit function
   async function onSubmit(data) {
-    console.log(data);
+    console.log(data); // Log the form data for debugging
     setLoading(true);
+
     const formData = new FormData();
+
+    // Append food details
     formData.append("foodname", data.foodname);
     formData.append("foodcategory", data.foodcategory);
     formData.append("foodprice", data.foodprice);
     formData.append("fooddesc", data.fooddesc);
+
     // Append the selected image
-    const fileInput = watchCategoryImage && watchCategoryImage[0]; // Get the first file
+    const fileInput = watchCategoryImage && watchCategoryImage[0]; // Get the first selected image
     if (fileInput) {
       formData.append("foodimg", fileInput);
     } else {
       console.error("No image selected");
+      toast.error("Please select an image for the food item.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
+      setLoading(false);
       return;
     }
+
     // Append the modified date
     formData.append("menumodifieddate", formattedDate);
+
     try {
-      const response = await fetch(`${host}/menu/add-footomenu`, {
-        method: "POST",
-        body: formData,
-      });
-      const responseData = await response.json();
-      console.log("Response Data:", responseData);
+      const response = await fetch(
+        "http://localhost/tharas_takeaway/backend/api/food_menu_form.php",
+        {
+          method: "POST",
+          body: formData, // Send formData with the POST request
+        }
+      );
+
+      const responseData = await response.json(); // Parse JSON response
+
+      console.log("Response Data:", responseData); // Log the response data for debugging
+
       if (response.ok) {
-        // alert("Data inserted successfully");
+        // Success toast notification
         toast.success("Food Added to the Menu List Successfully", {
           position: "top-center",
           autoClose: 5000,
@@ -97,11 +125,12 @@ const MenuForm = () => {
           theme: "light",
           transition: Slide,
         });
-        reset();
-        window.scrollTo(0, 0);
-        setLoading(false);
+
+        reset(); // Reset form values after submission
+        window.scrollTo(0, 0); // Scroll to top of the page
+        setLoading(false); // Turn off loading spinner
       } else {
-        // alert("Failed to submit");
+        // Error toast notification if the response is not OK
         toast.error("Something Went Wrong", {
           position: "top-center",
           autoClose: 5000,
@@ -113,12 +142,13 @@ const MenuForm = () => {
           theme: "light",
           transition: Slide,
         });
-        setLoading(false);
-        window.scrollTo(0, 0);
+
+        setLoading(false); // Turn off loading spinner
+        window.scrollTo(0, 0); // Scroll to top of the page
       }
     } catch (err) {
       console.log("Error while submitting the form:", err);
-      setLoading(false);
+      setLoading(false); // Turn off loading spinner in case of error
     }
   }
 

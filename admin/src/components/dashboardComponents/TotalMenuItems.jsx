@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 
 const TotalMenuItems = () => {
   const [menuItemCount, setMenuItemCount] = useState(0);
-  const host = "http://localhost:5000";
 
   useEffect(() => {
     async function handlefetchMenuItemCount() {
-      const response = await fetch(`${host}/menu/get-foodmenu`);
+      const response = await fetch(
+        "http://localhost/tharas_takeaway/backend/api/get_menu_details_table.php"
+      );
       const responseData = await response.json();
       console.log(responseData.length);
       setMenuItemCount(responseData.length);

@@ -12,14 +12,12 @@ const ProcessingOrderDetails = () => {
   const [orderedItems, setOrderedItems] = useState([]);
   const [statuses, setStatuses] = useState({});
 
-  const host = "http://localhost:5000";
-
   // Fetching ordered details that are in pending state
   useEffect(() => {
     async function newPendingOrder() {
       try {
         const response = await fetch(
-          `${host}/order/fetch-processing-order-items`
+          "http://localhost/tharas_takeaway/backend/api/fetch_processing_order_details.php"
         );
         const responseData = await response.json();
 
@@ -74,7 +72,7 @@ const ProcessingOrderDetails = () => {
 
   // Handle status change for each order
   const handleStatusChange = async (orderId, newStatus) => {
-    // Update status in local state
+    // Update status in local state (optimistic UI update)
     setStatuses((prevStatuses) => ({
       ...prevStatuses,
       [orderId]: newStatus,
@@ -82,25 +80,38 @@ const ProcessingOrderDetails = () => {
 
     // Send the updated status to the backend
     try {
-      const response = await fetch(`${host}/order/update-status`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ orderId, newStatus }),
-      });
+      const response = await fetch(
+        "http://localhost/tharas_takeaway/backend/api/update_order_details.php", // PHP API URL
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ orderId, newStatus }), // Sending orderId and newStatus to the backend
+        }
+      );
 
-      if (!response.ok) {
-        throw new Error("Failed to update status");
+      const responseData = await response.json(); // Ensure response is parsed as JSON
+
+      // Check if the status update was successful
+      if (response.ok) {
+        toast.success(`Order status updated to ${newStatus}`, {
+          position: "top-right",
+        });
+
+        // Optionally refresh the page or update local state (optional for optimization)
+        setTimeout(() => {
+          window.location.reload(); // Reload the page to reflect changes
+        }, 3000);
+      } else {
+        throw new Error(responseData.error || "Failed to update status"); // Handle errors from backend
       }
-      toast.success(`Order status updated to ${newStatus}`, {
+    } catch (error) {
+      // Log error if the status update failed
+      console.log(error);
+      toast.error(`Error: ${error.message}`, {
         position: "top-right",
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
-    } catch (error) {
-      console.log(error);
     }
   };
 

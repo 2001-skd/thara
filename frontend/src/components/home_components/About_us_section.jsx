@@ -47,7 +47,7 @@ const About_us_section = () => {
           </Typography>
           <Link to="/menu">
             <Button className="flex items-center gap-4 font-font-primary w-64 justify-center bg-white text-secondary">
-              Explore All Menu{" "}
+              Explore Menu{" "}
               <span className="text-xl">
                 <ImSpoonKnife />
               </span>
@@ -94,17 +94,19 @@ const About_us_section = () => {
           <Typography variant="h3" className="font-font-primary text-white">
             Who We Are ?
           </Typography>
-          <Typography className="font-font-primary text-white text-xl">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus
-            fugiat, in est ut tempora architecto totam odit porro molestiae,
-            iste optio quaerat facere, excepturi natus quas dignissimos nobis
-            error sunt mollitia! Velit dolore quia magni. Sit ex ullam adipisci
-            quas!
-            <br /> Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Doloribus fugiat, in est ut tempora architecto totam odit porro
-            molestiae, iste optio quaerat facere, excepturi natus quas
-            dignissimos nobis error sunt mollitia! Velit dolore quia magni. Sit
-            ex ullam adipisci quas!
+          <Typography className="font-font-primary text-white text-xl text-justify">
+            Welcome to Tharas Takeaway, your perfect destination for deliciously
+            prepared Sri Lankan and South Indian cuisine in London. We offer a
+            diverse menu featuring freshly made meals, delectable desserts, and
+            much more. Each dish is crafted with the finest ingredients,
+            prioritizing both flavor and hygiene. Whether you're craving a
+            hearty meal or a sweet treat, we ensure every order is prepared to
+            perfection.
+            <br />
+            <br /> Simply place your order online, and our team will take care
+            of the rest – packing your food securely and delivering it promptly
+            to your doorstep. Enjoy an authentic, flavorful experience with
+            Tharas Takeaway!
           </Typography>
           <Link to="/about">
             <Button className="flex items-center gap-4 font-font-primary w-64 justify-center bg-white text-secondary">

@@ -15,8 +15,8 @@ import { Link } from "react-router-dom";
 
 const OrderHistory = () => {
   const user = JSON.parse(localStorage.getItem("userDetails"));
-  const host = "http://localhost:5000";
   const [orderhistory, setOrderHistory] = useState([]);
+  const imgHost = "https://tharastakeaway.com/backend/";
 
   // Fetching order details on component mount
   useEffect(() => {
@@ -25,7 +25,9 @@ const OrderHistory = () => {
         const userId = user.id;
 
         const response = await fetch(
-          `${host}/order/fetch-order-details?user_id=${userId}`
+          `${
+            import.meta.env.VITE_API_URL
+          }order_history_user.php?user_id=${userId}`
         );
 
         if (!response.ok) {
@@ -40,7 +42,9 @@ const OrderHistory = () => {
       }
     }
 
-    fetchOrderDetails();
+    if (user.id) {
+      fetchOrderDetails();
+    }
   }, [user.id]);
 
   return (
@@ -72,7 +76,7 @@ const OrderHistory = () => {
                   className="m-0 rounded-none"
                 >
                   <img
-                    src={allAssets.briyaniImg}
+                    src={`${imgHost}/${value.foodimg}`}
                     alt="briyani_img"
                     className="h-60 w-full object-cover"
                   />

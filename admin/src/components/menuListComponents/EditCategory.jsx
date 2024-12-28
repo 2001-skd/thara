@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../Layout";
-import {
-  Card,
-  Input,
-  Button,
-  Typography,
-  Textarea,
-} from "@material-tailwind/react";
+import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useParams } from "react-router-dom";
@@ -14,21 +8,20 @@ import { Link, useParams } from "react-router-dom";
 const EditCategory = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
-  const [selectFieldData, setSelectFieldData] = useState([]);
   const [formFieldData, setFormFieldData] = useState({
     categoryname: "",
     categoryimg: "",
   });
   const [imagePreview, setImagePreview] = useState(null);
-  const host = "http://localhost:5000";
 
   // Fetching form details
   useEffect(() => {
     async function fetchFormDetails() {
       try {
         const response = await fetch(
-          `${host}/category/fetch-form-category/${id}`
+          `http://localhost/tharas_takeaway/backend/api/fetch_form_category_for_edit.php?id=${id}`
         );
+
         const contentType = response.headers.get("Content-Type");
 
         if (
@@ -37,19 +30,28 @@ const EditCategory = () => {
           contentType.includes("application/json")
         ) {
           const responseData = await response.json();
-          setFormFieldData({
-            categoryname: responseData[0].categoryname,
-            categoryimg: responseData[0].categoryimg,
-          });
-          setImagePreview(`${host}/${responseData[0].categoryimg}`);
+
+          if (responseData) {
+            setFormFieldData({
+              categoryname: responseData.categoryname,
+              categoryimg: responseData.categoryimg,
+            });
+
+            setImagePreview(
+              `http://localhost/tharas_takeaway/backend/${responseData.categoryimg}`
+            );
+          } else {
+            console.log("No data found for the provided category ID");
+          }
         } else {
           const errorText = await response.text();
           console.log("Error while fetching form data:", errorText);
         }
       } catch (err) {
-        console.log("Error fetching form details", err);
+        console.log("Error fetching form details:", err);
       }
     }
+
     fetchFormDetails();
   }, [id]);
 
@@ -59,7 +61,7 @@ const EditCategory = () => {
     if (file) {
       setFormFieldData({
         ...formFieldData,
-        categoryimg: file,
+        categoryimg: file, // Set file directly
       });
 
       const reader = new FileReader();
@@ -75,20 +77,37 @@ const EditCategory = () => {
     e.preventDefault();
     setLoading(true);
 
-    const formData = new FormData();
-    formData.append("categoryname", formFieldData.categoryname);
-    formData.append("categorymodifieddate", new Date().toLocaleString());
+    // Ensure that categoryname is not empty before appending to formData
+    if (!formFieldData.categoryname) {
+      toast.error("Category name cannot be empty.", {
+        position: "top-center",
+      });
+      setLoading(false);
+      return;
+    }
 
-    if (formFieldData.categoryimg) {
+    const formData = new FormData();
+    formData.append("categoryname", formFieldData.categoryname || ""); // Ensure categoryname is appended
+    formData.append("categorymodifieddate", new Date().toLocaleString()); // Ensure date is added
+
+    // Only append image if it's a valid File object
+    if (formFieldData.categoryimg instanceof File) {
       formData.append("categoryimg", formFieldData.categoryimg);
     }
 
+    // Debugging: Log formData content
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1]); // Check what is being appended to FormData
+    }
+
     try {
-      const response = await fetch(`${host}/category/edit-category/${id}`, {
-        method: "PUT",
-        // Do not set 'Content-Type' header for FormData
-        body: formData,
-      });
+      const response = await fetch(
+        `http://localhost/tharas_takeaway/backend/api/edit_category_form.php?id=${id}`,
+        {
+          method: "PUT",
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         toast.success("Category updated successfully!", {
@@ -110,7 +129,7 @@ const EditCategory = () => {
   return (
     <Layout>
       <ToastContainer />
-      <section className="px-4 py-8 flex items-center justify-center h-auto bg-[url('../../assets/images/diagonal_bg.png')]">
+      <section className="px-4 py-8 flex items-center justify-center h-auto bg-diagonalBg">
         <div className="flex items-center justify-center h-full">
           <Card color="white" className="p-5">
             <Link to="/dashboard/menu_list">
@@ -133,7 +152,7 @@ const EditCategory = () => {
               className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
             >
               <div className="mb-1 flex flex-col gap-6">
-                {/* Food Name */}
+                {/* Category Name */}
                 <Typography
                   variant="h6"
                   color="blue-gray"
@@ -151,7 +170,7 @@ const EditCategory = () => {
                   }
                   name="categoryname"
                   size="lg"
-                  placeholder="Chicken Briyani, Vegetable Briyani..."
+                  placeholder="Enter category name"
                   className=" !border-t-blue-gray-200 focus:!border-t-gray-900 !font-font-primary placeholder:!font-font-primary"
                   labelProps={{
                     className: "before:content-none after:content-none",

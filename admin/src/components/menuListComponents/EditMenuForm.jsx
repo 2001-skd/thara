@@ -10,7 +10,6 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useParams } from "react-router-dom";
-import bg from "../../assets/images/diagonal_bg.png";
 
 const EditMenuForm = () => {
   const { id } = useParams();
@@ -24,21 +23,27 @@ const EditMenuForm = () => {
     foodimg: "",
   });
   const [imagePreview, setImagePreview] = useState(null);
-  const host = "http://localhost:5000";
 
   // Fetching category details
   useEffect(() => {
     async function fetchCategoryNameinSelect() {
       try {
-        const response = await fetch(`${host}/category/get-category-details`);
+        const response = await fetch(
+          "http://localhost/tharas_takeaway/backend/api/get_category_details_table.php"
+        );
         const responseData = await response.json();
+
         if (response.ok) {
+          // Assuming the responseData is an array or an object
           setSelectFieldData(responseData);
+        } else {
+          console.error("Error: ", responseData.message || "Unknown error");
         }
       } catch (error) {
-        console.log("Error while fetching category details", error);
+        console.error("Error while category field fetching:", error);
       }
     }
+
     fetchCategoryNameinSelect();
   }, []);
 
@@ -46,23 +51,33 @@ const EditMenuForm = () => {
   useEffect(() => {
     async function fetchFormDetails() {
       try {
-        const response = await fetch(`${host}/menu/fetch-form-menu/${id}`);
+        // Construct the URL with the ID passed as a query parameter
+        const url = `http://localhost/tharas_takeaway/backend/api/fetch_form_menu.php?id=${id}`;
+        const response = await fetch(url);
+
         const contentType = response.headers.get("Content-Type");
 
+        // Check if the response is successful and contains JSON data
         if (
           response.ok &&
           contentType &&
           contentType.includes("application/json")
         ) {
           const responseData = await response.json();
-          setFormFieldData({
-            foodname: responseData[0].foodname,
-            foodprice: responseData[0].foodprice,
-            foodcategory: responseData[0].foodcategory,
-            fooddesc: responseData[0].fooddesc,
-            foodimg: responseData[0].foodimg,
-          });
-          setImagePreview(`${host}/${responseData[0].foodimg}`);
+
+          // Assuming responseData is a single object (not an array)
+          if (responseData) {
+            setFormFieldData({
+              foodname: responseData.foodname,
+              foodprice: responseData.foodprice,
+              foodcategory: responseData.foodcategory,
+              fooddesc: responseData.fooddesc,
+              foodimg: responseData.foodimg,
+            });
+
+            // Update the image preview URL (assuming the image is relative to your host)
+            setImagePreview(`${responseData.foodimg}`);
+          }
         } else {
           const errorText = await response.text();
           console.log("Error while fetching form data:", errorText);
@@ -71,6 +86,7 @@ const EditMenuForm = () => {
         console.log("Error fetching form details", err);
       }
     }
+
     fetchFormDetails();
   }, [id]);
 
@@ -107,12 +123,16 @@ const EditMenuForm = () => {
       formData.append("foodimg", formFieldData.foodimg);
     }
 
+    console.log(formData);
+
     try {
-      const response = await fetch(`${host}/menu/edit-menu/${id}`, {
-        method: "PUT",
-        // Do not set 'Content-Type' header for FormData
-        body: formData,
-      });
+      const response = await fetch(
+        `http://localhost/tharas_takeaway/backend/api/edit_menu_form.php?id=${id}`, // Pass the menu item ID
+        {
+          method: "PUT", // HTTP PUT request
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         toast.success("Menu updated successfully!", { position: "top-center" });
@@ -132,7 +152,7 @@ const EditMenuForm = () => {
   return (
     <Layout>
       <ToastContainer />
-      <section className="px-4 py-8 flex items-center justify-center h-auto bg-[url('../../assets/images/diagonal_bg.png')]">
+      <section className="px-4 py-8 flex items-center justify-center h-auto bg-diagonalBg">
         <div className="flex items-center justify-center h-full">
           <Card color="white" className="p-5">
             <Link to="/dashboard/menu_list">
@@ -267,7 +287,7 @@ const EditMenuForm = () => {
                 <div className="flex items-center flex-col">
                   {imagePreview && (
                     <img
-                      src={imagePreview}
+                      src={`https://tharastakeaway.com/backend/${imagePreview}`}
                       alt="Preview"
                       className="mb-4 h-32 w-32 object-cover rounded"
                     />

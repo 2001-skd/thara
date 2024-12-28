@@ -1,9 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "../components/Layout";
 import OtherPageBanner from "../components/OtherPageBanner";
 import { Typography } from "@material-tailwind/react";
 
 const ThankYouPage = () => {
+  useEffect(() => {
+    setTimeout(() => {
+      window.location.href = "/user_dashboard";
+    }, 3000);
+  }, []);
   return (
     <Layout>
       <section className="bg-diagonalBg px-4 py-8 w-full h-screen flex items-center justify-center flex-col gap-5">

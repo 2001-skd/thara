@@ -16,8 +16,8 @@ const CategoryList = () => {
   const [ids, setIds] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
   const [loading, setLoading] = useState(true);
-  // all states ends
-  const host = "http://localhost:5000";
+
+  console.log(categoryData);
 
   // handleexpand Function starts
   function handleExpand(item) {
@@ -33,7 +33,9 @@ const CategoryList = () => {
   async function handleCategoryListFetching() {
     setLoading(true);
     try {
-      const response = await fetch(`${host}/category/get-category-details`);
+      const response = await fetch(
+        "http://localhost/tharas_takeaway/backend/api/get_category_details_table.php"
+      );
       const responseData = await response.json(); // Add 'await' here
       if (Array.isArray(responseData)) {
         setCategoryData(responseData);
@@ -86,7 +88,7 @@ const CategoryList = () => {
       label: "Category Thumb Image",
       renderCell: (item) => (
         <img
-          src={`${host}/${item.categoryimg}`}
+          src={`http://localhost/tharas_takeaway/backend/${item.categoryimg}`}
           alt={item.categoryname}
           width={"100px"}
           height={"100px"}
@@ -134,7 +136,7 @@ const CategoryList = () => {
                     Category Thumb Image :
                   </strong>
                   <img
-                    src={`${host}/${item.categoryimg}`}
+                    src={`http://localhost/tharas_takeaway/backend/${item.categoryimg}`}
                     alt={item.categoryname}
                     width={"50px"}
                     height={"50px"}
@@ -189,19 +191,30 @@ const CategoryList = () => {
   // delete function starts
   async function handleDeleteBtn(e, id) {
     e.preventDefault();
-    // console.log("Attempting to delete category with ID:", id); // Log the ID
+
+    // Log the ID (for debugging purposes)
+    console.log("Attempting to delete category with ID:", id);
+
     try {
-      const response = await fetch(`${host}/category/delete-category/${id}`, {
-        method: "DELETE",
-      });
+      // Send the DELETE request to the PHP backend
+      const response = await fetch(
+        `http://localhost/tharas_takeaway/backend/api/delete_category.php?id=${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      // Parse the response as JSON
       const responseData = await response.json();
 
       if (response.ok) {
-        // alert("Deleted successfully");
+        // Successfully deleted the category, remove it from the state
         setCategoryData((prevData) =>
           prevData.filter((item) => item.id !== id)
         );
-        toast.success("Deleted Successfully", {
+
+        // Show a success toast notification
+        toast.success("Category Deleted Successfully", {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -212,11 +225,14 @@ const CategoryList = () => {
           theme: "light",
           transition: Slide,
         });
+
+        // Scroll to the top of the page
         window.scrollTo(0, 0);
       } else {
-        // alert(responseData.message || "Failed to delete the category");
+        // If there was an issue, show an error message from the response
         const errorMsg =
           responseData.message || "Failed to delete the category";
+
         toast.error(errorMsg, {
           position: "top-center",
           autoClose: 5000,
@@ -228,13 +244,32 @@ const CategoryList = () => {
           theme: "light",
           transition: Slide,
         });
+
+        // Scroll to the top of the page
         window.scrollTo(0, 0);
       }
     } catch (error) {
+      // Handle any errors that occur during the fetch request
       console.error("Error while deleting category:", error);
-      alert("An error occurred while deleting the category");
+
+      // Display a generic error message
+      toast.error("An error occurred while deleting the category", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
+
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
     }
   }
+
   // delete function ends
 
   // edit function starts

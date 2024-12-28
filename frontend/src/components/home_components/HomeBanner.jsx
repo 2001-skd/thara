@@ -12,14 +12,14 @@ const HomeBanner = () => {
           <GiForkKnifeSpoon />
         </div>
         <Typography className="text-5xl !text-white font-font-primary font-bold text-wrap">
-          Craving South Indian or Sri Lankan?
+          Craving Sri Lankan and South Indian?
         </Typography>
         <Typography className="text-2xl text-wrap !text-white font-bold font-font-primary">
           We deliver authentic flavors to your door!
         </Typography>
         <Link to="/menu">
           <Button className="flex items-center gap-4 font-font-primary w-64 justify-center bg-white text-secondary">
-            Explore All Menu{" "}
+            Explore Menu{" "}
             <span className="text-xl">
               <ImSpoonKnife />
             </span>

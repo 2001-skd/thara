@@ -20,25 +20,28 @@ const SignInForm = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const host = "http://localhost:5000";
 
   // function for handle login starts
   async function onSubmit(data) {
     setLoading(true);
-    const response = await fetch(`${host}/user/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}user_login.php`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
     const responseData = await response.json();
-    // console.log(responseData);
+
     if (response.ok) {
-      // console.log("Toeken", responseData.token);
-      localStorage.setItem("token", responseData.token);
-      localStorage.setItem("userDetails", JSON.stringify(responseData.user));
-      // console.log("user from response data", responseData.user);
+      // Store the token in localStorage
+      localStorage.setItem("token", responseData.token); // Save token
+      localStorage.setItem("userDetails", JSON.stringify(responseData.user)); // Store user details
+
       toast.success("Login Successful", {
         position: "top-center",
         autoClose: 5000,
@@ -50,11 +53,15 @@ const SignInForm = () => {
         theme: "light",
         transition: Slide,
       });
+
       window.scrollTo(0, 0);
       reset();
+
+      // Redirect to the dashboard or another page after a delay
       setTimeout(() => {
-        window.location.href = "/user_dashboard";
+        window.location.href = "/menu";
       }, 5000);
+
       setLoading(false);
     } else if (response.status === 400) {
       toast.warn(responseData.message, {
@@ -88,6 +95,7 @@ const SignInForm = () => {
       setLoading(false);
     }
   }
+
   // function for handle login ends
 
   //   function Toggle password starts
@@ -105,7 +113,7 @@ const SignInForm = () => {
       >
         Sign In
       </Typography>
-      <form className="mt-8 mb-2 w-full" onSubmit={handleSubmit(onSubmit)}>
+      <form className="mt-8 mb-2 w-full p-5" onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-1 flex flex-col gap-6">
           <Typography
             variant="h6"
