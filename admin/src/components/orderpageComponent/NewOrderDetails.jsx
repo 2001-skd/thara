@@ -17,7 +17,7 @@ const NewOrderDetails = () => {
     async function newPendingOrder() {
       try {
         const response = await fetch(
-          "http://localhost/tharas_takeaway/backend/api/new_order_items_fetch.php"
+          "https://tharastakeaway.com/backend/api/new_order_items_fetch.php"
         );
         const responseData = await response.json();
 
@@ -61,7 +61,6 @@ const NewOrderDetails = () => {
           {}
         );
         setStatuses(initialStatuses);
-        console.log(statuses);
       } catch (err) {
         console.log(err);
       }
@@ -81,7 +80,7 @@ const NewOrderDetails = () => {
     // Send the updated status to the backend
     try {
       const response = await fetch(
-        "http://localhost/tharas_takeaway/backend/api/update_order_details.php", // PHP API URL
+        "https://tharastakeaway.com/backend/api/update_order_details.php", // PHP API URL
         {
           method: "POST",
           headers: {
@@ -107,8 +106,6 @@ const NewOrderDetails = () => {
         throw new Error(responseData.error || "Failed to update status"); // Handle errors from backend
       }
     } catch (error) {
-      // Log error if the status update failed
-      console.log(error);
       toast.error(`Error: ${error.message}`, {
         position: "top-right",
       });
@@ -116,156 +113,165 @@ const NewOrderDetails = () => {
   };
 
   return (
-    <div className="new-order-details font-font-primary grid md:grid-cols-3 grid-cols-1  gap-5">
-      {orderedItems
-        .slice()
-        .reverse()
-        .map((order, index) => (
-          <Card key={index}>
-            <CardBody>
-              <div className="grid grid-cols-2">
-                <Typography
-                  variant="h5"
-                  className={`font-font-primary text-primary ${
-                    statuses[order.customer[0].orderId] === "pending"
-                      ? "text-red-500"
-                      : ""
-                  }`}
-                >
-                  Order Id - #TTA{order.customer[0].orderId}
-                </Typography>
+    <div className="new-order-details font-font-primary grid md:grid-cols-3 grid-cols-1 gap-5">
+      {orderedItems.length > 0 ? (
+        orderedItems
+          .slice()
+          .reverse()
+          .map((order, index) => (
+            <Card key={index}>
+              <CardBody>
+                <div className="grid grid-cols-2">
+                  <Typography
+                    variant="h5"
+                    className={`font-font-primary text-primary ${
+                      statuses[order.customer[0].orderId] === "pending"
+                        ? "text-red-500"
+                        : ""
+                    }`}
+                  >
+                    Order Id - #TTA{order.customer[0].orderId}
+                  </Typography>
 
-                <Select
-                  label="Order Status"
-                  value={statuses[order.customer[0].orderId]}
-                  onChange={(e) =>
-                    handleStatusChange(order.customer[0].orderId, e)
-                  }
-                >
-                  <Option value="pending">Pending</Option>
-                  <Option value="processing">Processing</Option>
-                  <Option value="delivered">Delivered</Option>
-                </Select>
-              </div>
+                  <Select
+                    label="Order Status"
+                    value={statuses[order.customer[0].orderId]}
+                    onChange={(e) =>
+                      handleStatusChange(order.customer[0].orderId, e)
+                    }
+                  >
+                    <Option value="pending">Pending</Option>
+                    <Option value="processing">Processing</Option>
+                    <Option value="delivered">Delivered</Option>
+                  </Select>
+                </div>
 
-              <div className="customer-details border border-dashed border-primary font-font-primary p-3 rounded-md my-2">
-                <Typography
-                  variant="small"
-                  className="font-font-primary text-primary font-bold"
-                >
-                  Name : {order.customer[0].customerName}
-                </Typography>
-                <Typography
-                  variant="small"
-                  className="font-font-primary text-primary font-bold"
-                >
-                  Email : {order.customer[0].customerEmail}
-                </Typography>
-                <Typography
-                  variant="small"
-                  className="font-font-primary text-primary font-bold"
-                >
-                  Phone : {order.customer[0].customerPhone}
-                </Typography>
-                <Typography
-                  variant="small"
-                  className="font-font-primary text-primary font-bold"
-                >
-                  Address : {order.customer[0].customerAddress}
-                </Typography>
-                <Typography
-                  variant="small"
-                  className="font-font-primary text-primary font-bold"
-                >
-                  Payment Method : {order.foodOrder[0].paymentMethod}
-                </Typography>
-              </div>
+                <div className="customer-details border border-dashed border-primary font-font-primary p-3 rounded-md my-2">
+                  <Typography
+                    variant="small"
+                    className="font-font-primary text-primary font-bold"
+                  >
+                    Name : {order.customer[0].customerName}
+                  </Typography>
+                  <Typography
+                    variant="small"
+                    className="font-font-primary text-primary font-bold"
+                  >
+                    Email : {order.customer[0].customerEmail}
+                  </Typography>
+                  <Typography
+                    variant="small"
+                    className="font-font-primary text-primary font-bold"
+                  >
+                    Phone : {order.customer[0].customerPhone}
+                  </Typography>
+                  <Typography
+                    variant="small"
+                    className="font-font-primary text-primary font-bold"
+                  >
+                    Address : {order.customer[0].customerAddress}
+                  </Typography>
+                  <Typography
+                    variant="small"
+                    className="font-font-primary text-primary font-bold"
+                  >
+                    Payment Method : {order.foodOrder[0].paymentMethod}
+                  </Typography>
+                </div>
 
-              <table className="w-full table-auto text-left border-collapse border border-blue-gray-200">
-                <tbody>
-                  <tr>
-                    <td className="p-2 border border-blue-gray-200" colSpan="2">
-                      <strong className="text-black">
-                        Ordered Items ({order.foodOrder.length})
-                      </strong>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="p-2 border border-blue-gray-200">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-font-primary font-bold"
+                <table className="w-full table-auto text-left border-collapse border border-blue-gray-200">
+                  <tbody>
+                    <tr>
+                      <td
+                        className="p-2 border border-blue-gray-200"
+                        colSpan="2"
                       >
-                        Item
-                      </Typography>
-                    </td>
-                    <td className="p-2 border border-blue-gray-200">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-font-primary font-bold"
-                      >
-                        Quantity x Price
-                      </Typography>
-                    </td>
-                  </tr>
+                        <strong className="text-black">
+                          Ordered Items ({order.foodOrder.length})
+                        </strong>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="p-2 border border-blue-gray-200">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-font-primary font-bold"
+                        >
+                          Item
+                        </Typography>
+                      </td>
+                      <td className="p-2 border border-blue-gray-200">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-font-primary font-bold"
+                        >
+                          Quantity x Price
+                        </Typography>
+                      </td>
+                    </tr>
 
-                  {order.foodOrder.map(
-                    ({ foodname, foodqty, foodprice }, idx) => (
-                      <tr key={idx}>
-                        <td className="p-2 border border-blue-gray-200">
-                          <Typography
-                            className="font-font-primary font-bold"
-                            variant="small"
-                            color="blue-gray"
-                          >
-                            {foodname}
-                          </Typography>
-                        </td>
-                        <td className="p-2 border border-blue-gray-200">
-                          <Typography
-                            className="font-font-primary font-bold"
-                            variant="small"
-                            color="blue-gray"
-                          >
-                            {foodqty} x {foodprice}
-                          </Typography>
-                        </td>
-                      </tr>
-                    )
-                  )}
+                    {order.foodOrder.map(
+                      ({ foodname, foodqty, foodprice }, idx) => (
+                        <tr key={idx}>
+                          <td className="p-2 border border-blue-gray-200">
+                            <Typography
+                              className="font-font-primary font-bold"
+                              variant="small"
+                              color="blue-gray"
+                            >
+                              {foodname}
+                            </Typography>
+                          </td>
+                          <td className="p-2 border border-blue-gray-200">
+                            <Typography
+                              className="font-font-primary font-bold"
+                              variant="small"
+                              color="blue-gray"
+                            >
+                              {foodqty} x {foodprice}
+                            </Typography>
+                          </td>
+                        </tr>
+                      )
+                    )}
 
-                  {/* Total Price */}
-                  <tr>
-                    <td className="p-2 border border-blue-gray-200">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-font-primary font-bold"
-                      >
-                        <strong>Total Price</strong>
-                      </Typography>
-                    </td>
-                    <td className="p-2 border border-blue-gray-200">
-                      <Typography
-                        className="font-font-primary font-bold"
-                        variant="small"
-                        color="blue-gray"
-                      >
-                        £
-                        {order.foodOrder.reduce(
-                          (acc, item) => acc + item.foodqty * item.foodprice,
-                          0
-                        )}
-                      </Typography>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </CardBody>
-          </Card>
-        ))}
+                    {/* Total Price */}
+                    <tr>
+                      <td className="p-2 border border-blue-gray-200">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-font-primary font-bold"
+                        >
+                          <strong>Total Price</strong>
+                        </Typography>
+                      </td>
+                      <td className="p-2 border border-blue-gray-200">
+                        <Typography
+                          className="font-font-primary font-bold"
+                          variant="small"
+                          color="blue-gray"
+                        >
+                          £
+                          {order.foodOrder.reduce(
+                            (acc, item) => acc + item.foodqty * item.foodprice,
+                            0
+                          )}
+                        </Typography>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </CardBody>
+            </Card>
+          ))
+      ) : (
+        <div className="text-center font-font-primary text-lg text-primary">
+          No new orders found
+        </div>
+      )}
     </div>
   );
 };

@@ -15,7 +15,7 @@ import { ToastContainer } from "react-toastify";
 
 const LoginForm = () => {
   const [tabType, setTabType] = useState("login");
-  console.log(tabType);
+  // console.log(tabType);
   return (
     <section className="bg-diagonalBg w-full flex items-center justify-center h-auto py-8 px-8 overflow-hidden">
       <ToastContainer />

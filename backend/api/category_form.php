@@ -21,6 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // Include database connection
 include("../config/db.php");
 
+
+
 // Check if the form data is received
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Extract text data from the request body

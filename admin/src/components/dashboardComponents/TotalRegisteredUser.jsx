@@ -8,7 +8,7 @@ const TotalRegisteredUser = () => {
   async function handleUserDetailsCount() {
     try {
       const url = await fetch(
-        "http://localhost/tharas_takeaway/backend/api/fetch_user_details.php"
+        "https://tharastakeaway.com/backend/api/fetch_user_details.php"
       );
       const responseData = await url.json();
       // console.log("type of of response data", typeof responseData);
@@ -19,7 +19,7 @@ const TotalRegisteredUser = () => {
         setTotalRegisteredUser(0);
       }
     } catch (err) {
-      console.log("error fetching details", err);
+      // console.log("error fetching details", err);
     }
   }
 

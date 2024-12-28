@@ -81,7 +81,7 @@ const FoodMenu = () => {
         setMenuData(Object.values(groupByCategory));
       })
       .catch((err) => {
-        console.log("error while fetching menu based on category", err);
+        // console.log("error while fetching menu based on category", err);
       });
   }, []);
 

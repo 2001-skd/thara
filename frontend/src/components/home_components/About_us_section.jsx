@@ -96,7 +96,7 @@ const About_us_section = () => {
           </Typography>
           <Typography className="font-font-primary text-white text-xl text-justify">
             Welcome to Tharas Takeaway, your perfect destination for deliciously
-            prepared Sri Lankan and South Indian cuisine in London. We offer a
+            prepared Sri Lankan and South Indian cuisine in Glasgow. We offer a
             diverse menu featuring freshly made meals, delectable desserts, and
             much more. Each dish is crafted with the finest ingredients,
             prioritizing both flavor and hygiene. Whether you're craving a

@@ -2,8 +2,8 @@
 // Allow from any origin (you can modify this for your specific domain)
 header("Access-Control-Allow-Origin: *");
 
-// Allow specific HTTP methods (PUT, OPTIONS)
-header("Access-Control-Allow-Methods: PUT, OPTIONS");
+// Allow specific HTTP methods (POST, OPTIONS)
+header("Access-Control-Allow-Methods: POST, OPTIONS");
 
 // Allow specific headers (allow necessary headers including content-type and authorization)
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
@@ -21,16 +21,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // Include database connection
 include("../config/db.php");
 
-// Check if the ID is provided in the URL
+// Check if the ID is provided in the URL (using GET method)
 if (isset($_GET['id'])) {
     $categoryId = $_GET['id'];
 
-    // Read the raw POST data (since this is a PUT request)
-    $inputData = json_decode(file_get_contents("php://input"), true);
-    
-    // Get the category name and modified date from input data
-    $categoryname = $inputData['categoryname'] ?? null;
-    $categorymodifieddate = $inputData['categorymodifieddate'] ?? null;
+    // Get the category name and modified date from POST data
+    if (isset($_POST['categoryname']) && isset($_POST['categorymodifieddate'])) {
+        $categoryname = $_POST['categoryname'];
+        $categorymodifieddate = $_POST['categorymodifieddate'];
+    } else {
+        // If required data is not provided in the POST request
+        echo json_encode(['message' => 'Category name and modified date are required']);
+        http_response_code(400); // Bad request
+        exit;
+    }
 
     // Check if a file was uploaded
     $categoryimg = null;

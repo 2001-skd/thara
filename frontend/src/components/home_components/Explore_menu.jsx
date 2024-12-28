@@ -63,12 +63,12 @@ const ExploreMenu = () => {
         }, {});
 
         // Log grouped categories to check the result
-        console.log(groupByCategory);
+        // console.log(groupByCategory);
 
         // Set the grouped food menu
         setFoodMenu(Object.values(groupByCategory));
       } catch (err) {
-        console.log("Error while fetching menu based on category", err);
+        // console.log("Error while fetching menu based on category", err);
       } finally {
         setLoading(false); // Turn off loading once data is fetched or error occurs
       }

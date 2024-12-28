@@ -33,13 +33,13 @@ const MenuList = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost/tharas_takeaway/backend/api/get_menu_details_table.php"
+        "https://tharastakeaway.com/backend/api/get_menu_details_table.php"
       );
       const responseData = await response.json(); // Add 'await' here
-      console.log(responseData);
+      // console.log(responseData);
       if (Array.isArray(responseData)) {
         setFoodListData(responseData);
-        console.log(responseData);
+        // console.log(responseData);
       } else {
         setFoodListData([]);
       }
@@ -119,7 +119,7 @@ const MenuList = () => {
   });
 
   function onPaginationChange(action, state) {
-    console.log(action, state);
+    // console.log(action, state);
   }
   //   pagination ends
   // handle table expand starts
@@ -234,11 +234,11 @@ const MenuList = () => {
   async function handleDeleteBtn(e, id) {
     e.preventDefault();
     // Log the ID to check if it's correct
-    console.log("Attempting to delete food menu item with ID:", id);
+    // console.log("Attempting to delete food menu item with ID:", id);
 
     try {
       const response = await fetch(
-        `http://localhost/tharas_takeaway/backend/api/delete_food_menu.php?id=${id}`, // Include the ID in the query string
+        `https://tharastakeaway.com/backend/api/delete_food_menu.php?id=${id}`, // Include the ID in the query string
         {
           method: "DELETE", // Ensure the method is DELETE
           headers: {

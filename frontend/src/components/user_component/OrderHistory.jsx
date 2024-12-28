@@ -35,7 +35,7 @@ const OrderHistory = () => {
         }
 
         const responseData = await response.json();
-        console.log("order history", responseData);
+        // console.log("order history", responseData);
         setOrderHistory(responseData);
       } catch (error) {
         console.error("Error fetching order details:", error);

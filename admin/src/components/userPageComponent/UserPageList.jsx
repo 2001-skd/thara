@@ -16,7 +16,7 @@ const UserPageList = () => {
     setLoading(true);
     try {
       const url =
-        "http://localhost/tharas_takeaway/backend/api/fetch_user_details.php";
+        "https://tharastakeaway.com/backend/api/fetch_user_details.php";
       const response = await fetch(url, {
         method: "GET", // Explicitly specifying the method as GET
         headers: {
@@ -37,7 +37,7 @@ const UserPageList = () => {
         setUserTableData([]); // If responseData is not an array, set it as empty
       }
     } catch (err) {
-      console.log("Error fetching details:", err);
+      // console.log("Error fetching details:", err);
       setUserTableData([]); // Optionally clear the table data on error
     } finally {
       setLoading(false); // Stop the loading state
@@ -88,7 +88,7 @@ const UserPageList = () => {
   });
 
   function onPaginationChange(action, state) {
-    console.log(action, state);
+    // console.log(action, state);
   }
   //   pagination ends
 

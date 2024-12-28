@@ -77,7 +77,7 @@ const CartTable = () => {
   };
 
   const user = JSON.parse(localStorage.getItem("userDetails"));
-  console.log(user);
+  // console.log(user);
 
   // order data details starts
   const orderData = {
@@ -91,7 +91,7 @@ const CartTable = () => {
     userAddress: shippingAddress,
   };
 
-  console.log(orderData);
+  // console.log(orderData);
   // order data details ends
 
   // create order function starts

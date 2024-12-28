@@ -49,9 +49,11 @@ const CategoryForm = () => {
     // Append the modified date
     formData.append("categorymodifieddate", formattedDate);
 
+    // console.log(formData);
+
     try {
       const response = await fetch(
-        "http://localhost/tharas_takeaway/backend/api/category_form.php",
+        "https://tharastakeaway.com/backend/api/category_form.php",
         {
           method: "POST",
           body: formData,
@@ -91,7 +93,7 @@ const CategoryForm = () => {
         setLoading(true);
       }
     } catch (err) {
-      console.log("Error while submitting the form:", err);
+      // console.log("Error while submitting the form:", err);
       setLoading(false);
     }
   }

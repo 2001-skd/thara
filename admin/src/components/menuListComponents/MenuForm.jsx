@@ -44,7 +44,7 @@ const MenuForm = () => {
     async function fetchCategoryNameinSelect() {
       try {
         const response = await fetch(
-          "http://localhost/tharas_takeaway/backend/api/get_category_details_table.php"
+          "https://tharastakeaway.com/backend/api/get_category_details_table.php"
         );
         const responseData = await response.json();
 
@@ -64,7 +64,7 @@ const MenuForm = () => {
 
   // Form submit function
   async function onSubmit(data) {
-    console.log(data); // Log the form data for debugging
+    // console.log(data); // Log the form data for debugging
     setLoading(true);
 
     const formData = new FormData();
@@ -101,7 +101,7 @@ const MenuForm = () => {
 
     try {
       const response = await fetch(
-        "http://localhost/tharas_takeaway/backend/api/food_menu_form.php",
+        "https://tharastakeaway.com/backend/api/food_menu_form.php",
         {
           method: "POST",
           body: formData, // Send formData with the POST request
@@ -110,7 +110,7 @@ const MenuForm = () => {
 
       const responseData = await response.json(); // Parse JSON response
 
-      console.log("Response Data:", responseData); // Log the response data for debugging
+      // console.log("Response Data:", responseData); // Log the response data for debugging
 
       if (response.ok) {
         // Success toast notification
@@ -147,7 +147,7 @@ const MenuForm = () => {
         window.scrollTo(0, 0); // Scroll to top of the page
       }
     } catch (err) {
-      console.log("Error while submitting the form:", err);
+      // console.log("Error while submitting the form:", err);
       setLoading(false); // Turn off loading spinner in case of error
     }
   }

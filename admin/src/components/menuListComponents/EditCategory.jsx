@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../Layout";
-import { Card, Input, Button, Typography } from "@material-tailwind/react";
+import {
+  Card,
+  Input,
+  Button,
+  Typography,
+  Textarea,
+} from "@material-tailwind/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useParams } from "react-router-dom";
@@ -14,16 +20,20 @@ const EditCategory = () => {
   });
   const [imagePreview, setImagePreview] = useState(null);
 
+  // console.log(formFieldData);
+
   // Fetching form details
   useEffect(() => {
     async function fetchFormDetails() {
       try {
+        // Adjust the URL to send the id as a query parameter
         const response = await fetch(
-          `http://localhost/tharas_takeaway/backend/api/fetch_form_category_for_edit.php?id=${id}`
+          `https://tharastakeaway.com/backend/api/fetch_form_category_for_edit.php?id=${id}`
         );
 
         const contentType = response.headers.get("Content-Type");
 
+        // Ensure the response is JSON
         if (
           response.ok &&
           contentType &&
@@ -31,27 +41,31 @@ const EditCategory = () => {
         ) {
           const responseData = await response.json();
 
+          // Check if responseData contains the data and then set it
           if (responseData) {
             setFormFieldData({
               categoryname: responseData.categoryname,
               categoryimg: responseData.categoryimg,
+              // categoryname: "test test",
             });
 
+            // For image preview, assuming the categoryimg is a relative path like 'uploads/category_img/image.jpg'
             setImagePreview(
-              `http://localhost/tharas_takeaway/backend/${responseData.categoryimg}`
+              `https://tharastakeaway.com/backend/${responseData.categoryimg}`
             );
           } else {
-            console.log("No data found for the provided category ID");
+            // console.log("No data found for the provided category ID");
           }
         } else {
           const errorText = await response.text();
-          console.log("Error while fetching form data:", errorText);
+          // console.log("Error while fetching form data:", errorText);
         }
       } catch (err) {
-        console.log("Error fetching form details:", err);
+        // console.log("Error fetching form details:", err);
       }
     }
 
+    // Call the fetchFormDetails function
     fetchFormDetails();
   }, [id]);
 
@@ -61,7 +75,7 @@ const EditCategory = () => {
     if (file) {
       setFormFieldData({
         ...formFieldData,
-        categoryimg: file, // Set file directly
+        categoryimg: file,
       });
 
       const reader = new FileReader();
@@ -77,35 +91,31 @@ const EditCategory = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Ensure that categoryname is not empty before appending to formData
-    if (!formFieldData.categoryname) {
-      toast.error("Category name cannot be empty.", {
-        position: "top-center",
-      });
-      setLoading(false);
-      return;
-    }
-
     const formData = new FormData();
-    formData.append("categoryname", formFieldData.categoryname || ""); // Ensure categoryname is appended
-    formData.append("categorymodifieddate", new Date().toLocaleString()); // Ensure date is added
+    // formData.append("categoryname", "testt category");
+    formData.append("categoryname", formFieldData.categoryname);
+    formData.append("categorymodifieddate", new Date().toLocaleString());
+    // console.log(formData);
 
-    // Only append image if it's a valid File object
-    if (formFieldData.categoryimg instanceof File) {
+    if (formFieldData.categoryimg) {
       formData.append("categoryimg", formFieldData.categoryimg);
     }
 
-    // Debugging: Log formData content
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]); // Check what is being appended to FormData
-    }
+    // for (let pair of formData.entries()) {
+    //   console.log(pair[0], pair[1]);
+    // }
+
+    // console.log(formData);
 
     try {
       const response = await fetch(
-        `http://localhost/tharas_takeaway/backend/api/edit_category_form.php?id=${id}`,
+        `https://tharastakeaway.com/backend/api/edit_category_form.php?id=${id}`,
         {
-          method: "PUT",
+          method: "POST",
           body: formData,
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
         }
       );
 
@@ -115,12 +125,12 @@ const EditCategory = () => {
         });
       } else {
         const errorText = await response.text();
-        console.log(errorText);
+        // console.log(errorText);
         toast.error(`Error: ${errorText}`, { position: "top-center" });
       }
     } catch (err) {
       toast.error("Error updating Category. Please try again later.");
-      console.log("Error during Category submission:", err);
+      // console.log("Error during Category submission:", err);
     } finally {
       setLoading(false);
     }
@@ -152,7 +162,7 @@ const EditCategory = () => {
               className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
             >
               <div className="mb-1 flex flex-col gap-6">
-                {/* Category Name */}
+                {/* Food Name */}
                 <Typography
                   variant="h6"
                   color="blue-gray"
@@ -170,7 +180,7 @@ const EditCategory = () => {
                   }
                   name="categoryname"
                   size="lg"
-                  placeholder="Enter category name"
+                  placeholder="Chicken Briyani, Vegetable Briyani..."
                   className=" !border-t-blue-gray-200 focus:!border-t-gray-900 !font-font-primary placeholder:!font-font-primary"
                   labelProps={{
                     className: "before:content-none after:content-none",

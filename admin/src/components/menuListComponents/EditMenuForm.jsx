@@ -29,7 +29,7 @@ const EditMenuForm = () => {
     async function fetchCategoryNameinSelect() {
       try {
         const response = await fetch(
-          "http://localhost/tharas_takeaway/backend/api/get_category_details_table.php"
+          "https://tharastakeaway.com/backend/api/get_category_details_table.php"
         );
         const responseData = await response.json();
 
@@ -52,7 +52,7 @@ const EditMenuForm = () => {
     async function fetchFormDetails() {
       try {
         // Construct the URL with the ID passed as a query parameter
-        const url = `http://localhost/tharas_takeaway/backend/api/fetch_form_menu.php?id=${id}`;
+        const url = `https://tharastakeaway.com/backend/api/fetch_form_menu.php?id=${id}`;
         const response = await fetch(url);
 
         const contentType = response.headers.get("Content-Type");
@@ -80,10 +80,10 @@ const EditMenuForm = () => {
           }
         } else {
           const errorText = await response.text();
-          console.log("Error while fetching form data:", errorText);
+          // console.log("Error while fetching form data:", errorText);
         }
       } catch (err) {
-        console.log("Error fetching form details", err);
+        // console.log("Error fetching form details", err);
       }
     }
 
@@ -123,13 +123,13 @@ const EditMenuForm = () => {
       formData.append("foodimg", formFieldData.foodimg);
     }
 
-    console.log(formData);
+    // console.log(formData);
 
     try {
       const response = await fetch(
-        `http://localhost/tharas_takeaway/backend/api/edit_menu_form.php?id=${id}`, // Pass the menu item ID
+        `https://tharastakeaway.com/backend/api/edit_menu_form.php?id=${id}`, // Pass the menu item ID
         {
-          method: "PUT", // HTTP PUT request
+          method: "POST", // HTTP PUT request
           body: formData,
         }
       );
@@ -138,12 +138,12 @@ const EditMenuForm = () => {
         toast.success("Menu updated successfully!", { position: "top-center" });
       } else {
         const errorText = await response.text();
-        console.log(errorText);
+        // console.log(errorText);
         toast.error(`Error: ${errorText}`, { position: "top-center" });
       }
     } catch (err) {
       toast.error("Error updating menu. Please try again later.");
-      console.log("Error during submission:", err);
+      // console.log("Error during submission:", err);
     } finally {
       setLoading(false);
     }

@@ -44,7 +44,7 @@ const LoginComponent = () => {
 
     // Sending a POST request to the PHP backend
     const response = await fetch(
-      "http://localhost/tharas_takeaway/backend/api/admin-login.php",
+      "https://tharastakeaway.com/backend/api/admin-login.php",
       {
         method: "POST",
         headers: {

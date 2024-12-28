@@ -17,7 +17,7 @@ const CategoryList = () => {
   const [categoryData, setCategoryData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log(categoryData);
+  // console.log(categoryData);
 
   // handleexpand Function starts
   function handleExpand(item) {
@@ -34,7 +34,7 @@ const CategoryList = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost/tharas_takeaway/backend/api/get_category_details_table.php"
+        "https://tharastakeaway.com/backend/api/get_category_details_table.php"
       );
       const responseData = await response.json(); // Add 'await' here
       if (Array.isArray(responseData)) {
@@ -88,7 +88,7 @@ const CategoryList = () => {
       label: "Category Thumb Image",
       renderCell: (item) => (
         <img
-          src={`http://localhost/tharas_takeaway/backend/${item.categoryimg}`}
+          src={`https://tharastakeaway.com/backend/${item.categoryimg}`}
           alt={item.categoryname}
           width={"100px"}
           height={"100px"}
@@ -105,7 +105,7 @@ const CategoryList = () => {
   });
 
   function onPaginationChange(action, state) {
-    console.log(action, state);
+    // console.log(action, state);
   }
   //   pagination ends
   // handle table expand starts
@@ -136,7 +136,7 @@ const CategoryList = () => {
                     Category Thumb Image :
                   </strong>
                   <img
-                    src={`http://localhost/tharas_takeaway/backend/${item.categoryimg}`}
+                    src={`https://tharastakeaway.com/backend/${item.categoryimg}`}
                     alt={item.categoryname}
                     width={"50px"}
                     height={"50px"}
@@ -193,12 +193,12 @@ const CategoryList = () => {
     e.preventDefault();
 
     // Log the ID (for debugging purposes)
-    console.log("Attempting to delete category with ID:", id);
+    // console.log("Attempting to delete category with ID:", id);
 
     try {
       // Send the DELETE request to the PHP backend
       const response = await fetch(
-        `http://localhost/tharas_takeaway/backend/api/delete_category.php?id=${id}`,
+        `https://tharastakeaway.com/backend/api/delete_category.php?id=${id}`,
         {
           method: "DELETE",
         }

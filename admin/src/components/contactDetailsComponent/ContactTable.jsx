@@ -17,7 +17,7 @@ const ContactTable = () => {
     setLoading(true);
     try {
       const url = await fetch(
-        "http://localhost/tharas_takeaway/backend/api/get_contact_details.php",
+        "https://tharastakeaway.com/backend/api/get_contact_details.php",
         {
           method: "GET",
           headers: {
@@ -37,7 +37,7 @@ const ContactTable = () => {
         setTableData([]);
       }
     } catch (err) {
-      console.log("Error fetching details:", err);
+      // console.log("Error fetching details:", err);
     } finally {
       setLoading(false);
     }
@@ -87,7 +87,7 @@ const ContactTable = () => {
   });
 
   function onPaginationChange(action, state) {
-    console.log(action, state);
+    // console.log(action, state);
   }
   //   pagination ends
 

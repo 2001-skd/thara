@@ -17,7 +17,7 @@ const ProcessingOrderDetails = () => {
     async function newPendingOrder() {
       try {
         const response = await fetch(
-          "http://localhost/tharas_takeaway/backend/api/fetch_processing_order_details.php"
+          "https://tharastakeaway.com/backend/api/fetch_processing_order_details.php"
         );
         const responseData = await response.json();
 
@@ -61,7 +61,6 @@ const ProcessingOrderDetails = () => {
           {}
         );
         setStatuses(initialStatuses);
-        console.log(statuses);
       } catch (err) {
         console.log(err);
       }
@@ -81,7 +80,7 @@ const ProcessingOrderDetails = () => {
     // Send the updated status to the backend
     try {
       const response = await fetch(
-        "http://localhost/tharas_takeaway/backend/api/update_order_details.php", // PHP API URL
+        "https://tharastakeaway.com/backend/api/update_order_details.php", // PHP API URL
         {
           method: "POST",
           headers: {
@@ -107,8 +106,6 @@ const ProcessingOrderDetails = () => {
         throw new Error(responseData.error || "Failed to update status"); // Handle errors from backend
       }
     } catch (error) {
-      // Log error if the status update failed
-      console.log(error);
       toast.error(`Error: ${error.message}`, {
         position: "top-right",
       });
@@ -116,11 +113,15 @@ const ProcessingOrderDetails = () => {
   };
 
   return (
-    <div className="new-order-details font-font-primary grid md:grid-cols-3 grid-cols-1  gap-5">
-      {orderedItems
-        .slice()
-        .reverse()
-        .map((order, index) => (
+    <div className="new-order-details font-font-primary grid md:grid-cols-3 grid-cols-1 gap-5">
+      {orderedItems.length === 0 ? (
+        <div className="col-span-3 text-center">
+          <Typography variant="h5" className="text-red-500">
+            No Processing Orders
+          </Typography>
+        </div>
+      ) : (
+        orderedItems.map((order, index) => (
           <Card key={index}>
             <CardBody>
               <div className="grid grid-cols-2">
@@ -265,7 +266,8 @@ const ProcessingOrderDetails = () => {
               </table>
             </CardBody>
           </Card>
-        ))}
+        ))
+      )}
     </div>
   );
 };
