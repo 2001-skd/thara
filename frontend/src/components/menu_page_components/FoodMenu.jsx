@@ -22,7 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./customScrollbar.css"; // Add a custom CSS file for scrollbar styles
 
 const FoodMenu = () => {
-  const imgHost = "https://tharastakeaway.com/backend/";
+  const imgHost = "https://tharastakeaway.com/backend";
   let menuId = 1;
   const [menuData, setMenuData] = useState([]);
   const token = localStorage.getItem("token");
@@ -89,13 +89,13 @@ const FoodMenu = () => {
     <section className="md:py-8 py-4 px-4 bg-diagonalBg">
       <Card className="p-5">
         <Tabs value="briyani" orientation="horizontal">
-          <TabsHeader className="w-full font-font-primary shadow-lg overflow-x-auto custom-scrollbar md:overflow-hidden">
+          <TabsHeader className="w-full font-font-primary shadow-lg overflow-x-auto custom-scrollbar overflow-scroll">
             {menuData.map(({ label, value, img }) => (
               <Tooltip content={`${label}`} className="font-font-primary">
                 <Tab
                   key={value}
                   value={value}
-                  className="font-bold text-primary font-font-primary flex items-center justify-center gap-3 my-2"
+                  className="font-bold text-primary font-font-primary flex flex-wrap items-center justify-center gap-3 my-2"
                 >
                   <img
                     src={`${imgHost}/${img}`}

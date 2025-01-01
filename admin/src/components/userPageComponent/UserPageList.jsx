@@ -16,7 +16,7 @@ const UserPageList = () => {
     setLoading(true);
     try {
       const url =
-        "https://tharastakeaway.com/backend/api/fetch_user_details.php";
+        "http://localhost/tharas_takeaway/backend/api/fetch_user_details.php";
       const response = await fetch(url, {
         method: "GET", // Explicitly specifying the method as GET
         headers: {

@@ -8,7 +8,7 @@ const TotalMenuItems = () => {
   useEffect(() => {
     async function handlefetchMenuItemCount() {
       const response = await fetch(
-        "https://tharastakeaway.com/backend/api/get_menu_details_table.php"
+        "http://localhost/tharas_takeaway/backend/api/get_menu_details_table.php"
       );
       const responseData = await response.json();
       // console.log(responseData.length);

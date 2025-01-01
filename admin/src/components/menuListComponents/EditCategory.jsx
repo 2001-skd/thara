@@ -28,7 +28,7 @@ const EditCategory = () => {
       try {
         // Adjust the URL to send the id as a query parameter
         const response = await fetch(
-          `https://tharastakeaway.com/backend/api/fetch_form_category_for_edit.php?id=${id}`
+          `http://localhost/tharas_takeaway/backend/api/fetch_form_category_for_edit.php?id=${id}`
         );
 
         const contentType = response.headers.get("Content-Type");
@@ -51,7 +51,7 @@ const EditCategory = () => {
 
             // For image preview, assuming the categoryimg is a relative path like 'uploads/category_img/image.jpg'
             setImagePreview(
-              `https://tharastakeaway.com/backend/${responseData.categoryimg}`
+              `http://localhost/tharas_takeaway/backend/${responseData.categoryimg}`
             );
           } else {
             // console.log("No data found for the provided category ID");
@@ -109,7 +109,7 @@ const EditCategory = () => {
 
     try {
       const response = await fetch(
-        `https://tharastakeaway.com/backend/api/edit_category_form.php?id=${id}`,
+        `http://localhost/tharas_takeaway/backend/api/edit_category_form.php?id=${id}`,
         {
           method: "POST",
           body: formData,

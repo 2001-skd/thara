@@ -17,7 +17,7 @@ const DeliveredOrderDetails = () => {
     async function newPendingOrder() {
       try {
         const response = await fetch(
-          "https://tharastakeaway.com/backend/api/fetch_delivered_order_details.php"
+          "http://localhost/tharas_takeaway/backend/api/fetch_delivered_order_details.php"
         );
         const responseData = await response.json();
 
@@ -70,7 +70,7 @@ const DeliveredOrderDetails = () => {
     // Send the updated status to the backend
     try {
       const response = await fetch(
-        "https://tharastakeaway.com/backend/api/update_order_details.php", // PHP API URL
+        "http://localhost/tharas_takeaway/backend/api/update_order_details.php", // PHP API URL
         {
           method: "POST",
           headers: {

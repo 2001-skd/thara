@@ -29,7 +29,7 @@ const EditMenuForm = () => {
     async function fetchCategoryNameinSelect() {
       try {
         const response = await fetch(
-          "https://tharastakeaway.com/backend/api/get_category_details_table.php"
+          "http://localhost/tharas_takeaway/backend/api/get_category_details_table.php"
         );
         const responseData = await response.json();
 
@@ -52,7 +52,7 @@ const EditMenuForm = () => {
     async function fetchFormDetails() {
       try {
         // Construct the URL with the ID passed as a query parameter
-        const url = `https://tharastakeaway.com/backend/api/fetch_form_menu.php?id=${id}`;
+        const url = `http://localhost/tharas_takeaway/backend/api/fetch_form_menu.php?id=${id}`;
         const response = await fetch(url);
 
         const contentType = response.headers.get("Content-Type");
@@ -127,7 +127,7 @@ const EditMenuForm = () => {
 
     try {
       const response = await fetch(
-        `https://tharastakeaway.com/backend/api/edit_menu_form.php?id=${id}`, // Pass the menu item ID
+        `http://localhost/tharas_takeaway/backend/api/edit_menu_form.php?id=${id}`, // Pass the menu item ID
         {
           method: "POST", // HTTP PUT request
           body: formData,
@@ -287,7 +287,7 @@ const EditMenuForm = () => {
                 <div className="flex items-center flex-col">
                   {imagePreview && (
                     <img
-                      src={`https://tharastakeaway.com/backend/${imagePreview}`}
+                      src={`http://localhost/tharas_takeaway/backend/${imagePreview}`}
                       alt="Preview"
                       className="mb-4 h-32 w-32 object-cover rounded"
                     />

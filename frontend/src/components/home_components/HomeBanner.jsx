@@ -17,6 +17,13 @@ const HomeBanner = () => {
         <Typography className="text-2xl text-wrap !text-white font-bold font-font-primary">
           We deliver authentic flavors to your door!
         </Typography>
+        <Button className="flex items-center gap-4 font-font-primary w-64 justify-center bg-white text-secondary">
+          100% Halal
+          <span className="text-xl">
+            <ImSpoonKnife />
+          </span>
+        </Button>
+
         <Link to="/menu">
           <Button className="flex items-center gap-4 font-font-primary w-64 justify-center bg-white text-secondary">
             Explore Menu{" "}

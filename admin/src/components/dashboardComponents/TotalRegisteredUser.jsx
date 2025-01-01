@@ -8,7 +8,7 @@ const TotalRegisteredUser = () => {
   async function handleUserDetailsCount() {
     try {
       const url = await fetch(
-        "https://tharastakeaway.com/backend/api/fetch_user_details.php"
+        "http://localhost/tharas_takeaway/backend/api/fetch_user_details.php"
       );
       const responseData = await url.json();
       // console.log("type of of response data", typeof responseData);

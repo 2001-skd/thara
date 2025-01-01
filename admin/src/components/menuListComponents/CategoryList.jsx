@@ -34,7 +34,7 @@ const CategoryList = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://tharastakeaway.com/backend/api/get_category_details_table.php"
+        "http://localhost/tharas_takeaway/backend/api/get_category_details_table.php"
       );
       const responseData = await response.json(); // Add 'await' here
       if (Array.isArray(responseData)) {
@@ -88,7 +88,7 @@ const CategoryList = () => {
       label: "Category Thumb Image",
       renderCell: (item) => (
         <img
-          src={`https://tharastakeaway.com/backend/${item.categoryimg}`}
+          src={`http://localhost/tharas_takeaway/backend/${item.categoryimg}`}
           alt={item.categoryname}
           width={"100px"}
           height={"100px"}
@@ -136,7 +136,7 @@ const CategoryList = () => {
                     Category Thumb Image :
                   </strong>
                   <img
-                    src={`https://tharastakeaway.com/backend/${item.categoryimg}`}
+                    src={`http://localhost/tharas_takeaway/backend/${item.categoryimg}`}
                     alt={item.categoryname}
                     width={"50px"}
                     height={"50px"}
@@ -198,7 +198,7 @@ const CategoryList = () => {
     try {
       // Send the DELETE request to the PHP backend
       const response = await fetch(
-        `https://tharastakeaway.com/backend/api/delete_category.php?id=${id}`,
+        `http://localhost/tharas_takeaway/backend/api/delete_category.php?id=${id}`,
         {
           method: "DELETE",
         }

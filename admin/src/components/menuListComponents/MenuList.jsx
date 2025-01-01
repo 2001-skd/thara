@@ -33,7 +33,7 @@ const MenuList = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://tharastakeaway.com/backend/api/get_menu_details_table.php"
+        "http://localhost/tharas_takeaway/backend/api/get_menu_details_table.php"
       );
       const responseData = await response.json(); // Add 'await' here
       // console.log(responseData);
@@ -85,7 +85,7 @@ const MenuList = () => {
       label: "Food Image",
       renderCell: (item) => (
         <img
-          src={`https://tharastakeaway.com/backend/${item.foodimg}`}
+          src={`http://localhost/tharas_takeaway/backend/${item.foodimg}`}
           alt={item.foodname}
           width={"100px"}
           height={"100px"}
@@ -142,7 +142,7 @@ const MenuList = () => {
                     Food Image :
                   </strong>
                   <img
-                    src={`https://tharastakeaway.com/backend/${item.foodimg}`}
+                    src={`http://localhost/tharas_takeaway/backend/${item.foodimg}`}
                     alt={item.foodname}
                     width={"50px"}
                     height={"50px"}
@@ -238,7 +238,7 @@ const MenuList = () => {
 
     try {
       const response = await fetch(
-        `https://tharastakeaway.com/backend/api/delete_food_menu.php?id=${id}`, // Include the ID in the query string
+        `http://localhost/tharas_takeaway/backend/api/delete_food_menu.php?id=${id}`, // Include the ID in the query string
         {
           method: "DELETE", // Ensure the method is DELETE
           headers: {

@@ -17,7 +17,7 @@ const ContactTable = () => {
     setLoading(true);
     try {
       const url = await fetch(
-        "https://tharastakeaway.com/backend/api/get_contact_details.php",
+        "http://localhost/tharas_takeaway/backend/api/get_contact_details.php",
         {
           method: "GET",
           headers: {

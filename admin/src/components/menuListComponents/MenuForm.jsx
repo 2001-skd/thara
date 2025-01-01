@@ -44,7 +44,7 @@ const MenuForm = () => {
     async function fetchCategoryNameinSelect() {
       try {
         const response = await fetch(
-          "https://tharastakeaway.com/backend/api/get_category_details_table.php"
+          "http://localhost/tharas_takeaway/backend/api/get_category_details_table.php"
         );
         const responseData = await response.json();
 
@@ -101,7 +101,7 @@ const MenuForm = () => {
 
     try {
       const response = await fetch(
-        "https://tharastakeaway.com/backend/api/food_menu_form.php",
+        "http://localhost/tharas_takeaway/backend/api/food_menu_form.php",
         {
           method: "POST",
           body: formData, // Send formData with the POST request
